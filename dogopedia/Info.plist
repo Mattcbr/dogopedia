@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>PERSONAL_API_KEY</key>
+	<string>live_mXvWSTM84HaTS3K2IkKp35jj7shFg4GspdxP6Nq4KcXt2GfCLtxfnHh89LT7lYD3</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
