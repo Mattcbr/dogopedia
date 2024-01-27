@@ -14,4 +14,9 @@ struct Breed: Codable, Hashable, Equatable {
     let reference_image_id: String
     let breed_group: String?
     let origin: String?
+    var imageUrl: String?
+
+    mutating func addImageUrl(_ url: String?) {
+        self.imageUrl = url
+    }
 }

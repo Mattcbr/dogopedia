@@ -29,6 +29,33 @@ class RequestMaker {
         }
     }
 
+    public func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
+
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String,
+              let endpointForImages = URL(string: "https://api.thedogapi.com/v1/images/\(referenceId)?api_key=\(apiKey)") else {
+            completion(nil)
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: endpointForImages) { data, _, error in
+
+            if let data = data {
+
+                do {
+                    let dataAsDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+                    let url = dataAsDict?["url"] as? String
+                    completion(url)
+                } catch {
+                    print("HTTP Request Failed")
+                }
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
+            }
+        }
+
+        task.resume()
+    }
+
     private func getRequestForURL<T>(_ requestUrl: String, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
 
         Alamofire.AF.request(requestUrl).responseDecodable(of: T.self) { response in

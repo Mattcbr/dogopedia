@@ -20,8 +20,16 @@ class breedsViewModel {
             guard let self else { return }
 
             switch result {
-            case .success(let breeds):
-                print("Breeds count:\(breeds.count)")
+            case .success(var breeds):
+
+                for index in 0..<breeds.count {
+
+                    RequestMaker().requestImageInformation(referenceId: breeds[index].reference_image_id) { url in
+                        breeds[index].addImageUrl(url)
+                        self.breeds = Set(breeds.map{$0})
+                        controller.didLoadBreeds()
+                    }
+                }
 
             case .failure(let error):
                 print("Error, should handle")
