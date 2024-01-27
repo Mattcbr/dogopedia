@@ -13,6 +13,7 @@ struct Breed: Codable, Hashable, Equatable {
     let name: String
     let reference_image_id: String
     let breed_group: String?
+    let temperament: String?
     let origin: String?
     var imageUrl: String?
 

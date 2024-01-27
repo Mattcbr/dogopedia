@@ -73,11 +73,11 @@
                                 <rect key="frame" x="0.0" y="158" width="393" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" id="d6B-ao-54r" customClass="breedsListViewCell" customModule="dogopedia" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" id="d6B-ao-54r" customClass="breedsListViewCell" customModule="dogopedia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="393" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d6B-ao-54r" id="3Ns-f1-JY9">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="362.66666666666669" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2lf-Na-3h2">
@@ -104,6 +104,7 @@
                                         <connections>
                                             <outlet property="breedImageView" destination="2lf-Na-3h2" id="QGd-r6-5hB"/>
                                             <outlet property="breedNameLabel" destination="NE2-Km-z7x" id="6k4-Fz-93l"/>
+                                            <segue destination="Shi-s1-J9Z" kind="show" id="QUB-kz-giD"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -156,6 +157,7 @@
                                         <connections>
                                             <outlet property="breedImageView" destination="Tb3-05-2J6" id="p6d-wy-UEp"/>
                                             <outlet property="breedNameLabel" destination="dfo-CB-Iz1" id="obj-1t-qNT"/>
+                                            <segue destination="Shi-s1-J9Z" kind="show" id="7Sm-5d-PQz"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -196,7 +198,82 @@
             </objects>
             <point key="canvasLocation" x="-358" y="-651"/>
         </scene>
+        <!--Details View Controller-->
+        <scene sceneID="6WE-MF-2Xj">
+            <objects>
+                <viewController id="Shi-s1-J9Z" customClass="detailsViewController" customModule="dogopedia" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9fI-Qm-WrH">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="so1-94-dGa">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="198"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="198" id="6tE-DZ-IYQ"/>
+                                    <constraint firstAttribute="width" constant="393" id="d9I-dW-xmR"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-na-B01">
+                                <rect key="frame" x="8" y="214.00000000000003" width="377" height="123.33333333333334"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aco-8K-d1P">
+                                        <rect key="frame" x="0.0" y="0.0" width="377" height="38.333333333333336"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1n-0f-TuI">
+                                        <rect key="frame" x="0.0" y="46.333333333333314" width="377" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2cD-7a-5d0">
+                                        <rect key="frame" x="0.0" y="74.666666666666686" width="377" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAH-SY-0Eg">
+                                        <rect key="frame" x="0.0" y="103" width="377" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YUM-ga-2Pc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DRf-na-B01" firstAttribute="top" secondItem="so1-94-dGa" secondAttribute="bottom" constant="16" id="2dW-K1-zoo"/>
+                            <constraint firstItem="YUM-ga-2Pc" firstAttribute="trailing" secondItem="so1-94-dGa" secondAttribute="trailing" id="8gU-7y-clH"/>
+                            <constraint firstItem="YUM-ga-2Pc" firstAttribute="trailing" secondItem="DRf-na-B01" secondAttribute="trailing" constant="8" id="CMM-a3-C4h"/>
+                            <constraint firstItem="so1-94-dGa" firstAttribute="leading" secondItem="YUM-ga-2Pc" secondAttribute="leading" id="HLB-g3-kFz"/>
+                            <constraint firstItem="YUM-ga-2Pc" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DRf-na-B01" secondAttribute="bottom" id="JIP-se-8YV"/>
+                            <constraint firstItem="DRf-na-B01" firstAttribute="leading" secondItem="YUM-ga-2Pc" secondAttribute="leading" constant="8" id="Ucg-xH-k3g"/>
+                            <constraint firstItem="so1-94-dGa" firstAttribute="top" secondItem="YUM-ga-2Pc" secondAttribute="top" id="ovz-Uw-Xgs"/>
+                            <constraint firstItem="DRf-na-B01" firstAttribute="centerX" secondItem="YUM-ga-2Pc" secondAttribute="centerX" id="tqe-z5-sPH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Xmt-ec-bXy"/>
+                    <connections>
+                        <outlet property="categoryLabel" destination="Y1n-0f-TuI" id="S4m-CN-KiE"/>
+                        <outlet property="detailsStackView" destination="DRf-na-B01" id="biq-2k-3ug"/>
+                        <outlet property="headerImageView" destination="so1-94-dGa" id="6DL-Rm-lAd"/>
+                        <outlet property="originLabel" destination="2cD-7a-5d0" id="ZxA-IF-sC5"/>
+                        <outlet property="temperamentLabel" destination="mAH-SY-0Eg" id="XET-5r-jsp"/>
+                        <outlet property="titleLabel" destination="Aco-8K-d1P" id="0aE-bS-wxG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ukv-ll-Fzz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="944" y="-319"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="7Sm-5d-PQz"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>

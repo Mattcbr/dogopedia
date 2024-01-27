@@ -60,6 +60,30 @@ class breedsViewController: UIViewController {
             break
         }
     }
+
+    // MARK: Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        guard let destinationVC = segue.destination as? detailsViewController else { return }
+
+        var breed: Breed?
+        var selectedCellIndexPath: Int?
+
+        if let gridCell = sender as? breedsGridViewCell {
+            selectedCellIndexPath = self.collectionView.indexPath(for: gridCell)?.row
+
+        } else if let listCell = sender as? breedsListViewCell {
+            selectedCellIndexPath = self.tableView.indexPath(for: listCell)?.row
+        }
+
+        if let selectedCellIndexPath {
+            breed = getBreedsArray()[selectedCellIndexPath]
+
+            destinationVC.breed = breed
+        }
+    }
+
     // MARK: Helper functions
 
     func getBreedsArray() -> [Breed] {
