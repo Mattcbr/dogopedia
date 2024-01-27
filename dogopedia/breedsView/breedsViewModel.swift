@@ -10,6 +10,7 @@ import Foundation
 class breedsViewModel {
     
     var controller: breedsViewController
+    public var breeds: Set<Breed> = [] // Maybe make this a set?
 
     init(controller: breedsViewController) {
         self.controller = controller
