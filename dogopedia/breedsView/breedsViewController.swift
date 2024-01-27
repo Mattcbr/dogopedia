@@ -16,6 +16,7 @@ class breedsViewController: UIViewController {
 
     var model: breedsViewModel?
     let gridReuseId = "gridCell"
+    let listReuseId = "listCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,9 @@ class breedsViewController: UIViewController {
 
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
     }
 
     // MARK: Public functions
@@ -63,7 +67,31 @@ extension breedsViewController: UICollectionViewDelegate & UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let model, model.breeds.count > indexPath.row, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridReuseId, for: indexPath) as? breedsGridViewCell else { return UICollectionViewCell() }
+        guard let model,
+              model.breeds.count > indexPath.row,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridReuseId, for: indexPath) as? breedsGridViewCell
+              else { return UICollectionViewCell() }
+
+        cell.setupForBreed(Array(model.breeds)[indexPath.row])
+
+        return cell
+    }
+}
+
+// MARK: Table View
+
+extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model?.breeds.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let model,
+              model.breeds.count > indexPath.row,
+              let cell = tableView.dequeueReusableCell(withIdentifier: listReuseId, for: indexPath) as? breedsListViewCell
+             else { return UITableViewCell() }
 
         cell.setupForBreed(Array(model.breeds)[indexPath.row])
 

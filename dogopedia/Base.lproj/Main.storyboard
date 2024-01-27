@@ -67,9 +67,44 @@
                                     <action selector="indexChanged:" destination="zlO-Jv-byE" eventType="valueChanged" id="S8w-as-ofS"/>
                                 </connections>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="oJI-Vc-C0a">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="oJI-Vc-C0a">
                                 <rect key="frame" x="0.0" y="158" width="393" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" id="d6B-ao-54r" customClass="breedsListViewCell" customModule="dogopedia" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="64"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d6B-ao-54r" id="3Ns-f1-JY9">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="64"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2lf-Na-3h2">
+                                                    <rect key="frame" x="16" y="4" width="56" height="56"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="2lf-Na-3h2" secondAttribute="height" multiplier="1:1" id="PFV-tC-PVb"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NE2-Km-z7x">
+                                                    <rect key="frame" x="88" y="13" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2lf-Na-3h2" firstAttribute="leading" secondItem="3Ns-f1-JY9" secondAttribute="leading" constant="16" id="Zwc-YR-7oT"/>
+                                                <constraint firstItem="NE2-Km-z7x" firstAttribute="leading" secondItem="2lf-Na-3h2" secondAttribute="trailing" constant="16" id="mpY-rk-AgG"/>
+                                                <constraint firstItem="2lf-Na-3h2" firstAttribute="top" secondItem="3Ns-f1-JY9" secondAttribute="top" constant="4" id="qfC-9P-6vT"/>
+                                                <constraint firstAttribute="bottom" secondItem="2lf-Na-3h2" secondAttribute="bottom" constant="4" id="r9w-mU-1zJ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NE2-Km-z7x" secondAttribute="trailing" constant="16" id="rrn-IH-fOv"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="breedImageView" destination="2lf-Na-3h2" id="QGd-r6-5hB"/>
+                                            <outlet property="breedNameLabel" destination="NE2-Km-z7x" id="6k4-Fz-93l"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vEk-J0-52W">
                                 <rect key="frame" x="0.0" y="158" width="393" height="611"/>
@@ -117,7 +152,7 @@
                                         </constraints>
                                         <size key="customSize" width="160" height="160"/>
                                         <connections>
-                                            <outlet property="breedImageView" destination="Tb3-05-2J6" id="ACc-eC-d4f"/>
+                                            <outlet property="breedImageView" destination="Tb3-05-2J6" id="p6d-wy-UEp"/>
                                             <outlet property="breedNameLabel" destination="dfo-CB-Iz1" id="obj-1t-qNT"/>
                                         </connections>
                                     </collectionViewCell>
@@ -127,21 +162,22 @@
                         <viewLayoutGuide key="safeArea" id="dIf-yZ-8Ta"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="top" secondItem="ARd-fo-Rpy" secondAttribute="bottom" constant="16" id="0tD-1A-ZkD"/>
+                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="0uU-OB-LrE"/>
                             <constraint firstItem="HTw-qf-chC" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" id="0un-P9-mwV"/>
                             <constraint firstItem="vEk-J0-52W" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="1yn-CH-mHE"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="bottom" secondItem="vEk-J0-52W" secondAttribute="bottom" id="2er-y3-B2h"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="ARd-fo-Rpy" secondAttribute="trailing" constant="16" id="3dq-XA-5K7"/>
-                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="trailing" secondItem="vEk-J0-52W" secondAttribute="trailing" id="6n3-05-cRh"/>
                             <constraint firstItem="vEk-J0-52W" firstAttribute="top" secondItem="ARd-fo-Rpy" secondAttribute="bottom" constant="16" id="7CD-Zb-NIm"/>
-                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="top" secondItem="vEk-J0-52W" secondAttribute="top" id="F72-hF-0A4"/>
-                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="bottom" secondItem="vEk-J0-52W" secondAttribute="bottom" id="Fyn-PM-tZo"/>
                             <constraint firstItem="HTw-qf-chC" firstAttribute="top" secondItem="dIf-yZ-8Ta" secondAttribute="top" id="Kkt-LN-PLI"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" constant="16" id="MoB-gw-1oX"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="top" secondItem="HTw-qf-chC" secondAttribute="bottom" constant="8" id="Sx6-G8-DMd"/>
-                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="leading" secondItem="vEk-J0-52W" secondAttribute="leading" id="Yr2-Vm-f7C"/>
                             <constraint firstItem="vEk-J0-52W" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" id="bTz-LJ-K4r"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="vEk-J0-52W" secondAttribute="trailing" id="bo7-7f-Zqy"/>
+                            <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="oJI-Vc-C0a" secondAttribute="trailing" id="eCW-TF-VCL"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="HTw-qf-chC" secondAttribute="trailing" id="exn-gr-FpS"/>
+                            <constraint firstItem="oJI-Vc-C0a" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" id="hg2-us-2rC"/>
+                            <constraint firstItem="dIf-yZ-8Ta" firstAttribute="bottom" secondItem="oJI-Vc-C0a" secondAttribute="bottom" id="ivV-jC-auA"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="ye9-Pg-K8Q"/>
                         </constraints>
                     </view>
