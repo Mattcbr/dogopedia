@@ -60,6 +60,21 @@ class breedsViewController: UIViewController {
             break
         }
     }
+    // MARK: Helper functions
+
+    func getBreedsArray() -> [Breed] {
+        guard let model else { return [] }
+        
+        var breedsArray = Array(model.breeds)
+
+        if self.isSorting {
+            breedsArray.sort {
+                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+        }
+
+        return breedsArray
+    }
 }
 
 // MARK: Collection View
@@ -77,13 +92,7 @@ extension breedsViewController: UICollectionViewDelegate & UICollectionViewDataS
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridReuseId, for: indexPath) as? breedsGridViewCell
               else { return UICollectionViewCell() }
 
-        var breedsArray = Array(model.breeds)
-
-        if self.isSorting {
-            breedsArray.sort {
-                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
-        }
+        let breedsArray = getBreedsArray()
 
         cell.setupForBreed(breedsArray[indexPath.row])
 
@@ -106,13 +115,7 @@ extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
               let cell = tableView.dequeueReusableCell(withIdentifier: listReuseId, for: indexPath) as? breedsListViewCell
              else { return UITableViewCell() }
 
-        var breedsArray = Array(model.breeds)
-
-        if self.isSorting {
-            breedsArray.sort {
-                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
-        }
+        let breedsArray = getBreedsArray()
 
         cell.setupForBreed(breedsArray[indexPath.row])
 
