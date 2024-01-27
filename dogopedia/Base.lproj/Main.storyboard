@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--Search-->
         <scene sceneID="XwT-yK-JCn">
             <objects>
                 <viewController id="pbD-Oq-dbz" sceneMemberID="viewController">
@@ -19,7 +19,7 @@
                         <viewLayoutGuide key="safeArea" id="2qY-mV-ecI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="8qX-La-SjM"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="8qX-La-SjM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VLU-f1-M7N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,7 +43,7 @@
             </objects>
             <point key="canvasLocation" x="-1273" y="-279"/>
         </scene>
-        <!--Item-->
+        <!--Home-->
         <scene sceneID="I1b-7c-Qfh">
             <objects>
                 <viewController id="zlO-Jv-byE" customClass="breedsViewController" customModule="dogopedia" customModuleProvider="target" sceneMemberID="viewController">
@@ -54,7 +54,9 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTw-qf-chC">
                                 <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                                 <items>
-                                    <navigationItem title="Dogopedia" id="bel-W4-kek"/>
+                                    <navigationItem title="Dogopedia 🐾" id="bel-W4-kek">
+                                        <barButtonItem key="rightBarButtonItem" title="Item" id="JpJ-we-0uM"/>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ARd-fo-Rpy">
@@ -67,25 +69,25 @@
                                     <action selector="indexChanged:" destination="zlO-Jv-byE" eventType="valueChanged" id="S8w-as-ofS"/>
                                 </connections>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="oJI-Vc-C0a">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="48" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="oJI-Vc-C0a">
                                 <rect key="frame" x="0.0" y="158" width="393" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="listCell" id="d6B-ao-54r" customClass="breedsListViewCell" customModule="dogopedia" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="393" height="64"/>
+                                        <rect key="frame" x="0.0" y="50" width="393" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d6B-ao-54r" id="3Ns-f1-JY9">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="64"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2lf-Na-3h2">
-                                                    <rect key="frame" x="16" y="4" width="56" height="56"/>
+                                                    <rect key="frame" x="16" y="4" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="2lf-Na-3h2" secondAttribute="height" multiplier="1:1" id="PFV-tC-PVb"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NE2-Km-z7x">
-                                                    <rect key="frame" x="88" y="13" width="42" height="21"/>
+                                                    <rect key="frame" x="72" y="13" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -181,11 +183,12 @@
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="ye9-Pg-K8Q"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="61u-GT-8Jr"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" id="61u-GT-8Jr"/>
                     <connections>
                         <outlet property="collectionView" destination="vEk-J0-52W" id="HgS-IN-ItJ"/>
                         <outlet property="displaySelector" destination="ARd-fo-Rpy" id="PFp-7u-Dv1"/>
                         <outlet property="navBar" destination="HTw-qf-chC" id="3Sm-7P-OBY"/>
+                        <outlet property="navBarRightButton" destination="JpJ-we-0uM" id="U9k-2C-hFt"/>
                         <outlet property="tableView" destination="oJI-Vc-C0a" id="Ila-XF-Owu"/>
                     </connections>
                 </viewController>
@@ -195,6 +198,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

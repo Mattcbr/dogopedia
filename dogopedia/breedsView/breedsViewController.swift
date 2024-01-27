@@ -13,8 +13,10 @@ class breedsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var displaySelector: UISegmentedControl!
     @IBOutlet weak var navBar: UINavigationBar!
-
+    @IBOutlet weak var navBarRightButton: UIBarButtonItem!
+    
     var model: breedsViewModel?
+    var isSorting = false
     let gridReuseId = "gridCell"
     let listReuseId = "listCell"
 
@@ -28,6 +30,9 @@ class breedsViewController: UIViewController {
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
+
+        self.navBar.delegate = self
+        self.setupNavbarItem()
     }
 
     // MARK: Public functions
@@ -72,7 +77,15 @@ extension breedsViewController: UICollectionViewDelegate & UICollectionViewDataS
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridReuseId, for: indexPath) as? breedsGridViewCell
               else { return UICollectionViewCell() }
 
-        cell.setupForBreed(Array(model.breeds)[indexPath.row])
+        var breedsArray = Array(model.breeds)
+
+        if self.isSorting {
+            breedsArray.sort {
+                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+        }
+
+        cell.setupForBreed(breedsArray[indexPath.row])
 
         return cell
     }
@@ -93,8 +106,41 @@ extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
               let cell = tableView.dequeueReusableCell(withIdentifier: listReuseId, for: indexPath) as? breedsListViewCell
              else { return UITableViewCell() }
 
-        cell.setupForBreed(Array(model.breeds)[indexPath.row])
+        var breedsArray = Array(model.breeds)
+
+        if self.isSorting {
+            breedsArray.sort {
+                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+            }
+        }
+
+        cell.setupForBreed(breedsArray[indexPath.row])
 
         return cell
+    }
+}
+
+// MARK: Navigation Bar
+
+extension breedsViewController: UINavigationBarDelegate {
+
+    func setupNavbarItem() {
+
+        self.navBarRightButton.title = self.isSorting ? "Unsort" : "Sort"
+        self.navBarRightButton.action = #selector(didTapNavBarItem)
+    }
+
+    @objc
+    func didTapNavBarItem() {
+
+        self.isSorting.toggle()
+        self.setupNavbarItem()
+        self.collectionView.reloadData()
+        self.tableView.reloadData()
+    }
+
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+
+     return .topAttached
     }
 }
