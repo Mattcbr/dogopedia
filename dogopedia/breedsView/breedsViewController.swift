@@ -17,6 +17,7 @@ class breedsViewController: UIViewController {
     
     var model: breedsViewModel?
     var isSorting = false
+    var isRequesting = false
     let gridReuseId = "gridCell"
     let listReuseId = "listCell"
 
@@ -39,7 +40,9 @@ class breedsViewController: UIViewController {
 
     public func didLoadBreeds() {
         DispatchQueue.main.async {
+            self.isRequesting = false
             self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
     }
 
@@ -89,7 +92,7 @@ class breedsViewController: UIViewController {
     func getBreedsArray() -> [Breed] {
         guard let model else { return [] }
         
-        var breedsArray = Array(model.breeds)
+        var breedsArray = model.breeds
 
         if self.isSorting {
             breedsArray.sort {
@@ -98,6 +101,21 @@ class breedsViewController: UIViewController {
         }
 
         return breedsArray
+    }
+
+    // MARK: Continuous Scroll
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollViewHeight = scrollView.frame.size.height
+        let scrollContentSizeHeight = scrollView.contentSize.height
+        let scrollOffset = scrollView.contentOffset.y
+
+        let diff = scrollContentSizeHeight - scrollOffset - scrollViewHeight
+
+        if (diff <= 300 && !isRequesting) {
+            self.isRequesting = true
+            model?.didScrollToBottom()
+        }
     }
 }
 
@@ -162,8 +180,12 @@ extension breedsViewController: UINavigationBarDelegate {
 
         self.isSorting.toggle()
         self.setupNavbarItem()
-        self.collectionView.reloadData()
-        self.tableView.reloadData()
+
+        if self.displaySelector.selectedSegmentIndex == 0 {
+            self.collectionView.reloadData()
+        } else {
+            self.tableView.reloadData()
+        }
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {

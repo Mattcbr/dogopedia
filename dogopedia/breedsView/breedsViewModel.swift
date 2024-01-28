@@ -11,7 +11,9 @@ class breedsViewModel {
     
     let controller: breedsViewController?
     let networkRequester: networkRequester
-    public var breeds: Set<Breed> = []
+
+    var pageToRequest: Int = 0
+    public var breeds: [Breed] = []
 
     init(controller: breedsViewController,
          networkRequester: networkRequester) {
@@ -22,24 +24,39 @@ class breedsViewModel {
         self.requestBreeds()
     }
 
+    func didScrollToBottom() {
+
+        self.pageToRequest += 1
+        requestBreeds()
+    }
+
     func requestBreeds() {
 
-        networkRequester.requestBreeds(requestType: .allBreeds(0)) { [weak self] result in
+        networkRequester.requestBreeds(requestType: .allBreeds(self.pageToRequest)) { [weak self] result in
 
             guard let self else { return }
 
+            var dogsWithImagesCounter: Int = 0
+
             switch result {
-            case .success(var breeds):
+            case .success(var resultBreeds):
 
-                for index in 0..<breeds.count {
+                for index in 0..<resultBreeds.count {
 
-                    networkRequester.requestImageInformation(referenceId: breeds[index].reference_image_id) {[weak self] url in
+                    networkRequester.requestImageInformation(referenceId: resultBreeds[index].reference_image_id) {[weak self] url in
 
                         guard let self else { return }
 
-                        breeds[index].addImageUrl(url)
-                        self.breeds = Set(breeds.map{$0})
-                        self.controller?.didLoadBreeds()
+                        resultBreeds[index].addImageUrl(url)
+                        dogsWithImagesCounter += 1
+
+                        if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
+                            self.breeds.append(resultBreeds[index])
+                        }
+
+                        if dogsWithImagesCounter == resultBreeds.count {
+                            self.controller?.didLoadBreeds()
+                        }
                     }
                 }
 
