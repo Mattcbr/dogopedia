@@ -15,9 +15,13 @@ class breedsGridViewCell: UICollectionViewCell {
     
     func setupForBreed(_ breed: Breed) {
         
-        guard let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) else { return }
+        if let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) {
+            breedImageView.af.setImage(withURL: url)
 
-        breedImageView.af.setImage(withURL: url)
+        } else {
+            breedImageView.image = UIImage(named: "notfound")
+        }
+
         breedImageView.contentMode = .scaleAspectFill
         breedNameLabel.text = breed.name
     }

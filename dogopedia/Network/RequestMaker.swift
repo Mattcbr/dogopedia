@@ -62,10 +62,12 @@ class RequestMaker: networkRequester {
                     let url = dataAsDict?["url"] as? String
                     completion(url)
                 } catch {
-                    print("HTTP Request Failed")
+                    print("Image Request Failed for :\(referenceId)")
+                    completion(nil)
                 }
             } else if let error = error {
-                print("HTTP Request Failed \(error)")
+                print("Image Request Failed with error: \(error)")
+                completion(nil)
             }
         }
 
