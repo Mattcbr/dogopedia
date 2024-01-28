@@ -23,10 +23,10 @@ enum UrlBuilder {
             URLQueryItem(name: "api_key", value: apiKey)
         ]
 
-        return components.url!
+        return components.url
     }
 
-    static func buildSearchUrl(searchQuery: String) -> URL {
+    static func buildSearchUrl(searchQuery: String) -> URL? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.thedogapi.com"
@@ -35,6 +35,21 @@ enum UrlBuilder {
             URLQueryItem(name: "q", value: searchQuery)
         ]
 
-        return components.url!
+        return components.url
+    }
+
+    static func buildImageUrl(referenceId: String) -> URL? {
+
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String else { return nil }
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.thedogapi.com"
+        components.path = "/v1/images/\(referenceId)"
+        components.queryItems = [
+            URLQueryItem(name: "api_key", value: apiKey)
+        ]
+
+        return components.url
     }
 }

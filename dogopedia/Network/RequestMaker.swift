@@ -48,8 +48,7 @@ class RequestMaker: networkRequester {
 
     func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
 
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String,
-              let endpointForImages = URL(string: "https://api.thedogapi.com/v1/images/\(referenceId)?api_key=\(apiKey)") else {
+        guard let endpointForImages = UrlBuilder.buildImageUrl(referenceId: referenceId) else {
             completion(nil)
             return
         }
