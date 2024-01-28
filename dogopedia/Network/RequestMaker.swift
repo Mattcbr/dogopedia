@@ -10,8 +10,8 @@ import Alamofire
 import AlamofireImage
 
 protocol networkRequester {
-    func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
-    func searchBreeds(searchQuery: String, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
+
+    func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
     func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void)
 }
 
@@ -20,30 +20,31 @@ enum HttpRequestError: Error {
     case decoding
 }
 
+enum requestType {
+    case allBreeds(Int)
+    case searchBreeds(String)
+}
+
 class RequestMaker: networkRequester {
 
-    func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
+    func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
 
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String else { return }
+        var endpoint: URL?
 
-        let endpointForBreeds = "https://api.thedogapi.com/v1/breeds?api_key=\(apiKey)&limit=20&page=\(pageToRequest)"
+        switch requestType {
+        case let .allBreeds(pageNumber):
+            endpoint = UrlBuilder.buildMainScreenUrl(page: pageNumber)
 
-        getRequestForURL(endpointForBreeds) { result in
-            completion(result)
+        case let .searchBreeds(searchQuery):
+            endpoint = UrlBuilder.buildSearchUrl(searchQuery: searchQuery)
+        }
+
+        if let endpoint {
+            getRequestForURL(endpoint) { result in
+                completion(result)
+            }
         }
     }
-
-    func searchBreeds(searchQuery: String, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
-
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String else { return }
-
-        let endpointForBreeds = "https://api.thedogapi.com/v1/breeds/search?q=\(searchQuery)"
-
-        getRequestForURL(endpointForBreeds) { result in
-            completion(result)
-        }
-    }
-
 
     func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
 
@@ -72,7 +73,7 @@ class RequestMaker: networkRequester {
         task.resume()
     }
 
-    private func getRequestForURL<T>(_ requestUrl: String, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
+    private func getRequestForURL<T>(_ requestUrl: URL, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
 
         Alamofire.AF.request(requestUrl).responseDecodable(of: T.self) { response in
             switch response.result {

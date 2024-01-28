@@ -22,8 +22,9 @@ class breedsViewModel {
         self.requestBreeds()
     }
 
-    public func requestBreeds() {
-        networkRequester.requestBreeds(pageToRequest: 0) { [weak self] result in
+    func requestBreeds() {
+
+        networkRequester.requestBreeds(requestType: .allBreeds(0)) { [weak self] result in
 
             guard let self else { return }
 

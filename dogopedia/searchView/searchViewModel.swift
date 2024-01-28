@@ -21,7 +21,8 @@ class searchViewModel {
     }
 
     func performSearch(withTerm term: String, completion: @escaping(viewState) -> Void) {
-        networkRequester.searchBreeds(searchQuery: term) { [weak self] result in
+
+        networkRequester.requestBreeds(requestType: .searchBreeds(term)) { [weak self] result in
             guard let self else { return }
 
             switch result {
