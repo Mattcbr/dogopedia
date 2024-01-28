@@ -32,7 +32,7 @@ class breedsViewModel {
 
                 for index in 0..<breeds.count {
 
-                    RequestMaker().requestImageInformation(referenceId: breeds[index].reference_image_id) {[weak self] url in
+                    networkRequester.requestImageInformation(referenceId: breeds[index].reference_image_id) {[weak self] url in
 
                         guard let self else { return }
 

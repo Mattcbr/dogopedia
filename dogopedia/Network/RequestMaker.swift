@@ -11,6 +11,7 @@ import AlamofireImage
 
 protocol networkRequester {
     func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
+    func searchBreeds(searchQuery: String, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
     func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void)
 }
 
@@ -32,7 +33,19 @@ class RequestMaker: networkRequester {
         }
     }
 
-    public func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
+    func searchBreeds(searchQuery: String, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
+
+        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String else { return }
+
+        let endpointForBreeds = "https://api.thedogapi.com/v1/breeds/search?q=\(searchQuery)"
+
+        getRequestForURL(endpointForBreeds) { result in
+            completion(result)
+        }
+    }
+
+
+    func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
 
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String,
               let endpointForImages = URL(string: "https://api.thedogapi.com/v1/images/\(referenceId)?api_key=\(apiKey)") else {
