@@ -9,16 +9,19 @@ import Foundation
 import Alamofire
 import AlamofireImage
 
+protocol networkRequester {
+    func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
+    func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void)
+}
+
 enum HttpRequestError: Error {
     case unavailable
     case decoding
 }
 
-class RequestMaker {
+class RequestMaker: networkRequester {
 
-    var delegate: requestDelegate?
-
-    public func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
+    func requestBreeds(pageToRequest: Int, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
 
         guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "PERSONAL_API_KEY") as? String else { return }
 

@@ -9,13 +9,21 @@ import Foundation
 
 class breedsViewModel {
     
-    var controller: breedsViewController
-    public var breeds: Set<Breed> = [] // Maybe make this a set?
+    let controller: breedsViewController?
+    let networkRequester: networkRequester
+    public var breeds: Set<Breed> = []
 
-    init(controller: breedsViewController) {
+    init(controller: breedsViewController,
+         networkRequester: networkRequester) {
+
         self.controller = controller
+        self.networkRequester = networkRequester
 
-        RequestMaker().requestBreeds(pageToRequest: 0) { [weak self] result in
+        self.requestBreeds()
+    }
+
+    public func requestBreeds() {
+        networkRequester.requestBreeds(pageToRequest: 0) { [weak self] result in
 
             guard let self else { return }
 
@@ -24,10 +32,13 @@ class breedsViewModel {
 
                 for index in 0..<breeds.count {
 
-                    RequestMaker().requestImageInformation(referenceId: breeds[index].reference_image_id) { url in
+                    RequestMaker().requestImageInformation(referenceId: breeds[index].reference_image_id) {[weak self] url in
+
+                        guard let self else { return }
+
                         breeds[index].addImageUrl(url)
                         self.breeds = Set(breeds.map{$0})
-                        controller.didLoadBreeds()
+                        self.controller?.didLoadBreeds()
                     }
                 }
 

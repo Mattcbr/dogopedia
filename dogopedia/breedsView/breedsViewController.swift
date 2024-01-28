@@ -23,7 +23,7 @@ class breedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.model = breedsViewModel(controller: self)
+        self.model = breedsViewModel(controller: self, networkRequester: RequestMaker())
 
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
