@@ -33,15 +33,19 @@ class searchViewModel {
                     return
                 }
 
+                let dispatchGroup = DispatchGroup()
+
                 for index in 0..<breeds.count {
 
+                    dispatchGroup.enter()
                     networkRequester.requestImageInformation(referenceId: breeds[index].reference_image_id) { url in
                         breeds[index].addImageUrl(url)
                         self.resultBreeds = Set(breeds.map{$0})
+                        dispatchGroup.leave()
+                    }
 
-                        if index == breeds.count - 1 {
-                            completion(.successful)
-                        }
+                    dispatchGroup.notify(queue: .main) {
+                        completion(.successful)
                     }
                 }
             case .failure:
