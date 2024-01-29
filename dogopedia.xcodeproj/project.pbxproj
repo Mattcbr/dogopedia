@@ -27,7 +27,6 @@
 		2FA9828E2B645FC00075E7C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9828C2B645FC00075E7C4 /* Main.storyboard */; };
 		2FA982902B645FC20075E7C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9828F2B645FC20075E7C4 /* Assets.xcassets */; };
 		2FA982932B645FC20075E7C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FA982912B645FC20075E7C4 /* LaunchScreen.storyboard */; };
-		2FA9829E2B645FC30075E7C4 /* dogopediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +61,6 @@
 		2FA982922B645FC20075E7C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2FA982942B645FC20075E7C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FA982992B645FC30075E7C4 /* dogopediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogopediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dogopediaTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
