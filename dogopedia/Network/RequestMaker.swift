@@ -76,15 +76,26 @@ class RequestMaker: networkRequester {
 
     private func getRequestForURL<T>(_ requestUrl: URL, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
 
-        Alamofire.AF.request(requestUrl).responseDecodable(of: T.self) { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
+        let task = URLSession.shared.dataTask(with: requestUrl) { data, _, error in
 
-            case .failure(let error):
+            guard let data,
+                  error == nil else {
+
+                completion(.failure(.unavailable))
+                return
+            }
+
+            do {
+                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(decodedResponse))
+
+            } catch {
+
                 print("RequestMaker Error: \(error.localizedDescription)")
                 completion(.failure(.unavailable))
             }
         }
+
+        task.resume()
     }
 }
