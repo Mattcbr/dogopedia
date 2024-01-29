@@ -22,13 +22,10 @@
 		1ADB48422B65717300CF0B20 /* detailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADB48412B65717300CF0B20 /* detailsViewController.swift */; };
 		2FA982872B645FC00075E7C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA982862B645FC00075E7C4 /* AppDelegate.swift */; };
 		2FA982892B645FC00075E7C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA982882B645FC00075E7C4 /* SceneDelegate.swift */; };
-		2FA9828B2B645FC00075E7C4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9828A2B645FC00075E7C4 /* ViewController.swift */; };
 		2FA9828E2B645FC00075E7C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9828C2B645FC00075E7C4 /* Main.storyboard */; };
 		2FA982902B645FC20075E7C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FA9828F2B645FC20075E7C4 /* Assets.xcassets */; };
 		2FA982932B645FC20075E7C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FA982912B645FC20075E7C4 /* LaunchScreen.storyboard */; };
 		2FA9829E2B645FC30075E7C4 /* dogopediaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */; };
-		2FA982A82B645FC30075E7C4 /* dogopediaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA982A72B645FC30075E7C4 /* dogopediaUITests.swift */; };
-		2FA982AA2B645FC30075E7C4 /* dogopediaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA982A92B645FC30075E7C4 /* dogopediaUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +60,6 @@
 		2FA982832B645FC00075E7C4 /* dogopedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dogopedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FA982862B645FC00075E7C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FA982882B645FC00075E7C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2FA9828A2B645FC00075E7C4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2FA9828D2B645FC00075E7C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2FA9828F2B645FC20075E7C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FA982922B645FC20075E7C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,8 +67,6 @@
 		2FA982992B645FC30075E7C4 /* dogopediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogopediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dogopediaTests.swift; sourceTree = "<group>"; };
 		2FA982A32B645FC30075E7C4 /* dogopediaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogopediaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FA982A72B645FC30075E7C4 /* dogopediaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dogopediaUITests.swift; sourceTree = "<group>"; };
-		2FA982A92B645FC30075E7C4 /* dogopediaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dogopediaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +96,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A24DF612B67A8040054E4C2 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				1AA890302B6461E100CDAE6B /* breedsView */,
+				1ADB48402B65715900CF0B20 /* detailsView */,
+				1A35531B2B666DEE0097FD80 /* searchView */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		1A35531B2B666DEE0097FD80 /* searchView */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +173,6 @@
 			children = (
 				2FA982852B645FC00075E7C4 /* dogopedia */,
 				2FA9829C2B645FC30075E7C4 /* dogopediaTests */,
-				2FA982A62B645FC30075E7C4 /* dogopediaUITests */,
 				2FA982842B645FC00075E7C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -187,14 +190,11 @@
 		2FA982852B645FC00075E7C4 /* dogopedia */ = {
 			isa = PBXGroup;
 			children = (
-				1A35531B2B666DEE0097FD80 /* searchView */,
-				1ADB48402B65715900CF0B20 /* detailsView */,
+				1A24DF612B67A8040054E4C2 /* views */,
 				1AA8903E2B64681000CDAE6B /* models */,
 				1AA890352B64632500CDAE6B /* network */,
-				1AA890302B6461E100CDAE6B /* breedsView */,
 				2FA982862B645FC00075E7C4 /* AppDelegate.swift */,
 				2FA982882B645FC00075E7C4 /* SceneDelegate.swift */,
-				2FA9828A2B645FC00075E7C4 /* ViewController.swift */,
 				2FA9828C2B645FC00075E7C4 /* Main.storyboard */,
 				2FA9828F2B645FC20075E7C4 /* Assets.xcassets */,
 				2FA982912B645FC20075E7C4 /* LaunchScreen.storyboard */,
@@ -209,15 +209,6 @@
 				2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */,
 			);
 			path = dogopediaTests;
-			sourceTree = "<group>";
-		};
-		2FA982A62B645FC30075E7C4 /* dogopediaUITests */ = {
-			isa = PBXGroup;
-			children = (
-				2FA982A72B645FC30075E7C4 /* dogopediaUITests.swift */,
-				2FA982A92B645FC30075E7C4 /* dogopediaUITestsLaunchTests.swift */,
-			);
-			path = dogopediaUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,7 +350,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA9828B2B645FC00075E7C4 /* ViewController.swift in Sources */,
 				1ADB483D2B651D5E00CF0B20 /* breedsGridViewCell.swift in Sources */,
 				1AA890322B64620C00CDAE6B /* breedsViewController.swift in Sources */,
 				2FA982872B645FC00075E7C4 /* AppDelegate.swift in Sources */,
@@ -388,8 +378,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA982A82B645FC30075E7C4 /* dogopediaUITests.swift in Sources */,
-				2FA982AA2B645FC30075E7C4 /* dogopediaUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

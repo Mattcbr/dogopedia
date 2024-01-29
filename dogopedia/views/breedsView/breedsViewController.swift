@@ -160,6 +160,7 @@ extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
         let breedsArray = getBreedsArray()
 
         cell.setupForBreed(breedsArray[indexPath.row])
+        //cell.selectionStyle = .none
 
         return cell
     }
