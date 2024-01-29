@@ -15,7 +15,7 @@ class breedsViewModel {
     var pageToRequest: Int = 0
     public var breeds: [Breed] = []
 
-    init(controller: breedsViewController,
+    init(controller: breedsViewController?,
          networkRequester: networkRequester) {
 
         self.controller = controller
@@ -61,7 +61,7 @@ class breedsViewModel {
                 }
 
             case .failure(let error):
-                print("Error, should handle")
+                print("Error requesting breeds: \(error.localizedDescription)")
             }
         }
     }

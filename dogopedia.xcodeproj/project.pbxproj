@@ -17,6 +17,7 @@
 		1AA8903A2B64660D00CDAE6B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA890392B64660D00CDAE6B /* Alamofire */; };
 		1AA8903D2B64665500CDAE6B /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA8903C2B64665500CDAE6B /* AlamofireImage */; };
 		1AA890402B64682000CDAE6B /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8903F2B64682000CDAE6B /* Breed.swift */; };
+		1ACBBB5E2B67FF6E004DA06B /* breedsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBBB5D2B67FF6E004DA06B /* breedsViewModelTests.swift */; };
 		1ADB483D2B651D5E00CF0B20 /* breedsGridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADB483C2B651D5E00CF0B20 /* breedsGridViewCell.swift */; };
 		1ADB483F2B6564F600CF0B20 /* breedsListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADB483E2B6564F600CF0B20 /* breedsListViewCell.swift */; };
 		1ADB48422B65717300CF0B20 /* detailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADB48412B65717300CF0B20 /* detailsViewController.swift */; };
@@ -36,13 +37,6 @@
 			remoteGlobalIDString = 2FA982822B645FC00075E7C4;
 			remoteInfo = dogopedia;
 		};
-		2FA982A42B645FC30075E7C4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2FA9827B2B645FC00075E7C4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2FA982822B645FC00075E7C4;
-			remoteInfo = dogopedia;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +48,7 @@
 		1AA890332B64626A00CDAE6B /* breedsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = breedsViewModel.swift; sourceTree = "<group>"; };
 		1AA890362B64634300CDAE6B /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		1AA8903F2B64682000CDAE6B /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		1ACBBB5D2B67FF6E004DA06B /* breedsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = breedsViewModelTests.swift; sourceTree = "<group>"; };
 		1ADB483C2B651D5E00CF0B20 /* breedsGridViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = breedsGridViewCell.swift; sourceTree = "<group>"; };
 		1ADB483E2B6564F600CF0B20 /* breedsListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = breedsListViewCell.swift; sourceTree = "<group>"; };
 		1ADB48412B65717300CF0B20 /* detailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailsViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +61,6 @@
 		2FA982942B645FC20075E7C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FA982992B645FC30075E7C4 /* dogopediaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogopediaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dogopediaTests.swift; sourceTree = "<group>"; };
-		2FA982A32B645FC30075E7C4 /* dogopediaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogopediaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,13 +74,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2FA982962B645FC30075E7C4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2FA982A02B645FC30075E7C4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,7 +169,6 @@
 			children = (
 				2FA982832B645FC00075E7C4 /* dogopedia.app */,
 				2FA982992B645FC30075E7C4 /* dogopediaTests.xctest */,
-				2FA982A32B645FC30075E7C4 /* dogopediaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				2FA9829D2B645FC30075E7C4 /* dogopediaTests.swift */,
+				1ACBBB5D2B67FF6E004DA06B /* breedsViewModelTests.swift */,
 			);
 			path = dogopediaTests;
 			sourceTree = "<group>";
@@ -253,24 +240,6 @@
 			productReference = 2FA982992B645FC30075E7C4 /* dogopediaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2FA982A22B645FC30075E7C4 /* dogopediaUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2FA982B32B645FC30075E7C4 /* Build configuration list for PBXNativeTarget "dogopediaUITests" */;
-			buildPhases = (
-				2FA9829F2B645FC30075E7C4 /* Sources */,
-				2FA982A02B645FC30075E7C4 /* Frameworks */,
-				2FA982A12B645FC30075E7C4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2FA982A52B645FC30075E7C4 /* PBXTargetDependency */,
-			);
-			name = dogopediaUITests;
-			productName = dogopediaUITests;
-			productReference = 2FA982A32B645FC30075E7C4 /* dogopediaUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -285,10 +254,6 @@
 						CreatedOnToolsVersion = 14.1;
 					};
 					2FA982982B645FC30075E7C4 = {
-						CreatedOnToolsVersion = 14.1;
-						TestTargetID = 2FA982822B645FC00075E7C4;
-					};
-					2FA982A22B645FC30075E7C4 = {
 						CreatedOnToolsVersion = 14.1;
 						TestTargetID = 2FA982822B645FC00075E7C4;
 					};
@@ -313,7 +278,6 @@
 			targets = (
 				2FA982822B645FC00075E7C4 /* dogopedia */,
 				2FA982982B645FC30075E7C4 /* dogopediaTests */,
-				2FA982A22B645FC30075E7C4 /* dogopediaUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -330,13 +294,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2FA982972B645FC30075E7C4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2FA982A12B645FC30075E7C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -371,13 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FA9829E2B645FC30075E7C4 /* dogopediaTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2FA9829F2B645FC30075E7C4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				1ACBBB5E2B67FF6E004DA06B /* breedsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,11 +339,6 @@
 			isa = PBXTargetDependency;
 			target = 2FA982822B645FC00075E7C4 /* dogopedia */;
 			targetProxy = 2FA9829A2B645FC30075E7C4 /* PBXContainerItemProxy */;
-		};
-		2FA982A52B645FC30075E7C4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2FA982822B645FC00075E7C4 /* dogopedia */;
-			targetProxy = 2FA982A42B645FC30075E7C4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -622,40 +568,6 @@
 			};
 			name = Release;
 		};
-		2FA982B42B645FC30075E7C4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mattcbr.dogopediaUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = dogopedia;
-			};
-			name = Debug;
-		};
-		2FA982B52B645FC30075E7C4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = mattcbr.dogopediaUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = dogopedia;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -682,15 +594,6 @@
 			buildConfigurations = (
 				2FA982B12B645FC30075E7C4 /* Debug */,
 				2FA982B22B645FC30075E7C4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2FA982B32B645FC30075E7C4 /* Build configuration list for PBXNativeTarget "dogopediaUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2FA982B42B645FC30075E7C4 /* Debug */,
-				2FA982B52B645FC30075E7C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
