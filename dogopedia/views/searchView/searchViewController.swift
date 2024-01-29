@@ -25,7 +25,9 @@ class searchViewController: UIViewController {
     let searchCellReuseId = "searchCell"
     var state: viewState = .waiting {
         didSet {
-            didChangeState()
+            DispatchQueue.main.async {
+                self.didChangeState()
+            }
         }
     }
 
@@ -55,11 +57,9 @@ class searchViewController: UIViewController {
             self.tableView.isHidden = true
 
         case .successful:
-            DispatchQueue.main.async {
-                self.helperLabel.isHidden = true
-                self.tableView.reloadData()
-                self.tableView.isHidden = false
-            }
+            self.helperLabel.isHidden = true
+            self.tableView.reloadData()
+            self.tableView.isHidden = false
 
         case .error:
             helperLabel.text = "Sorry, we couldn't fetch anything for you..."
@@ -75,9 +75,10 @@ class searchViewController: UIViewController {
         guard let destinationVC = segue.destination as? detailsViewController,
               let model = self.model,
               let searchCell = sender as? searchViewCell,
-              let selectedCellIndexPath = self.tableView.indexPath(for: searchCell)?.row else { return }
+              let selectedCellIndexPath = self.tableView.indexPath(for: searchCell) else { return }
 
-        let breed = Array(model.resultBreeds)[selectedCellIndexPath]
+        let breed = Array(model.resultBreeds)[selectedCellIndexPath.row]
+        self.tableView.deselectRow(at: selectedCellIndexPath, animated: false)
         destinationVC.breed = breed
     }
 }

@@ -29,10 +29,12 @@ class detailsViewController: UIViewController {
 
         if let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) {
 
-            headerImageView.af.setImage(withURL: url)
-            headerImageView.contentMode = .scaleAspectFill
+            self.headerImageView.af.setImage(withURL: url)
+        } else {
+            self.headerImageView.image = UIImage(named: "notfound")
         }
 
+        self.headerImageView.contentMode = .scaleAspectFill
         self.titleLabel.text = breed.name
         self.categoryLabel.text = "Category: \(breed.breed_group ?? "Unknown")"
         self.originLabel.text = "Origin: \(breed.origin ?? "Unknown")"
