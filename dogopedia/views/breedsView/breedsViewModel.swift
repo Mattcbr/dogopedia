@@ -36,28 +36,30 @@ class breedsViewModel {
 
             guard let self else { return }
 
-            var dogsWithImagesCounter: Int = 0
-
             switch result {
             case .success(var resultBreeds):
 
+                let dispatchGroup = DispatchGroup()
+
                 for index in 0..<resultBreeds.count {
+                    dispatchGroup.enter()
 
                     networkRequester.requestImageInformation(referenceId: resultBreeds[index].reference_image_id) {[weak self] url in
 
                         guard let self else { return }
 
                         resultBreeds[index].addImageUrl(url)
-                        dogsWithImagesCounter += 1
 
                         if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
                             self.breeds.append(resultBreeds[index])
                         }
 
-                        if dogsWithImagesCounter == resultBreeds.count {
-                            self.controller?.didLoadBreeds()
-                        }
+                        dispatchGroup.leave()
                     }
+                }
+
+                dispatchGroup.notify(queue: .main) { [weak self] in
+                    self?.controller?.didLoadBreeds()
                 }
 
             case .failure(let error):
