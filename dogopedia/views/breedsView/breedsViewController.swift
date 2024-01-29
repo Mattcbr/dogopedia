@@ -89,6 +89,11 @@ class breedsViewController: UIViewController {
 
     // MARK: Helper functions
 
+    /**
+     This function gets the array of breeds and sorts it if needed
+
+     - Returns: An array of breeds
+     */
     func getBreedsArray() -> [Breed] {
         guard let model else { return [] }
         

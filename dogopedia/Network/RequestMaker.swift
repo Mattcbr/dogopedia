@@ -27,6 +27,12 @@ enum requestType {
 
 class RequestMaker: networkRequester {
 
+    /**
+     This function gets breeds from the API
+
+     - Parameter requestType: The type of request to be performed (All or search)
+     - Parameter completion: the completionHandler to call when the work is done
+     */
     func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
 
         var endpoint: URL?
@@ -46,6 +52,14 @@ class RequestMaker: networkRequester {
         }
     }
 
+    /**
+     This function returns an URL for the breed image
+
+     Since it is necessary to perform a second request to get the breed image's URL, and most of the information that comes on this second request is not being used right now, this function makes the request and returns a string with only the URL for the breed's image.
+
+     - Parameter referenceId: The reference that should be used to make a request
+     - Parameter completion: the completionHandler to call when the work is done
+     */
     func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
 
         guard let endpointForImages = UrlBuilder.buildImageUrl(referenceId: referenceId) else {
@@ -90,12 +104,10 @@ class RequestMaker: networkRequester {
                 completion(.success(decodedResponse))
 
             } catch {
-
                 print("RequestMaker Error: \(error.localizedDescription)")
                 completion(.failure(.unavailable))
             }
         }
-
         task.resume()
     }
 }
