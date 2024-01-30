@@ -114,6 +114,10 @@ extension searchViewController: UISearchBarDelegate {
 
         self.searchTimer?.invalidate()
 
+        if searchText == "" {
+            searchBar.resignFirstResponder()
+        }
+
         guard searchText.trimmingCharacters(in: .whitespacesAndNewlines) != "" else {
             state = .waiting
             return
