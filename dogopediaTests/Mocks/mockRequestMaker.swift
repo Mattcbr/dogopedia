@@ -29,7 +29,7 @@ class mockRequestMaker: networkRequester {
         completion(.success(breedsToReturn))
     }
 
-    func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
+    func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void) {
         didRequestImageInformation = true
         completion(nil)
     }

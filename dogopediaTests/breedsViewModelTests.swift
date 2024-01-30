@@ -55,12 +55,12 @@ final class breedsViewModelTests: XCTestCase {
 
         // Arrange
         guard let requestMakerMock else { return }
-        let testBreed = Breed(id: 0,
+        let testBreed = Breed(group: "TestGroup",
+                              id: 0,
+                              imageReference: "TestReference",
                               name: "TestBreed",
-                              reference_image_id: "TestReference",
-                              breed_group: "TestGroup",
-                              temperament: "TestTemper",
-                              origin: "TestOrigin")
+                              origin: "TestOrigin",
+                              temperament: "TestTemper")
         requestMakerMock.breedsToReturn = [testBreed]
 
         // Act
@@ -74,6 +74,13 @@ final class breedsViewModelTests: XCTestCase {
 
         // Arrange
         guard let requestMakerMock else { return }
+        let testBreed = Breed(group: "TestGroup",
+                               id: 0,
+                               imageReference: "TestReference",
+                               name: "TestBreed",
+                               origin: "TestOrigin",
+                               temperament: "TestTemper")
+        requestMakerMock.breedsToReturn = [testBreed]
 
         // Act
         self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
@@ -96,19 +103,19 @@ final class breedsViewModelTests: XCTestCase {
 
         // Arrange
         guard let requestMakerMock else { return }
-        let testBreed1 = Breed(id: 0,
-                              name: "TestBreed",
-                              reference_image_id: "TestReference",
-                              breed_group: "TestGroup",
-                              temperament: "TestTemper",
-                              origin: "TestOrigin")
+        let testBreed1 = Breed(group: "TestGroup",
+                               id: 0,
+                               imageReference: "TestReference",
+                               name: "TestBreed",
+                               origin: "TestOrigin",
+                               temperament: "TestTemper")
 
-        let testBreed2 = Breed(id: 1,
-                              name: "TestBreed",
-                              reference_image_id: "TestReference",
-                              breed_group: "TestGroup",
-                              temperament: "TestTemper",
-                              origin: "TestOrigin")
+        let testBreed2 = Breed(group: "TestGroup",
+                               id: 1,
+                               imageReference: "TestReference",
+                               name: "TestBreed",
+                               origin: "TestOrigin",
+                               temperament: "TestTemper")
 
         requestMakerMock.breedsToReturn = [testBreed1, testBreed1, testBreed2, testBreed2]
 

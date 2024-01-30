@@ -51,12 +51,12 @@ final class searchViewModelTest: XCTestCase {
         // Arrange
         guard let requestMakerMock else { return }
 
-        let testBreed = Breed(id: 0,
+        let testBreed = Breed(group: "TestGroup", 
+                              id: 0,
+                              imageReference: "TestReference",
                               name: "TestBreed",
-                              reference_image_id: "TestReference",
-                              breed_group: "TestGroup",
-                              temperament: "TestTemper",
-                              origin: "TestOrigin")
+                              origin: "TestOrigin",
+                              temperament: "TestTemper")
 
         requestMakerMock.breedsToReturn = [testBreed]
         self.viewModel = searchViewModel(controller: nil, networkRequester: requestMakerMock)
@@ -79,12 +79,12 @@ final class searchViewModelTest: XCTestCase {
         // Arrange
         guard let requestMakerMock else { return }
 
-        let testBreed = Breed(id: 0,
+        let testBreed = Breed(group: "TestGroup",
+                              id: 0,
+                              imageReference: "TestReference",
                               name: "TestBreed",
-                              reference_image_id: "TestReference",
-                              breed_group: "TestGroup",
-                              temperament: "TestTemper",
-                              origin: "TestOrigin")
+                              origin: "TestOrigin",
+                              temperament: "TestTemper")
 
         requestMakerMock.breedsToReturn = [testBreed]
         self.viewModel = searchViewModel(controller: nil, networkRequester: requestMakerMock)
