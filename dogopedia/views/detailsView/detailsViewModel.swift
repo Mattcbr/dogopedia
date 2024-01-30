@@ -9,7 +9,7 @@ import Foundation
 
 class detailsViewModel {
 
-    let controller: detailsViewController?
+    weak var controller: detailsViewController?
     let databaseManager: dbManager
 
     init(controller: detailsViewController) {

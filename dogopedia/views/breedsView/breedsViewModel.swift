@@ -9,7 +9,7 @@ import Foundation
 
 class breedsViewModel {
     
-    let controller: breedsViewController?
+    weak var controller: breedsViewController?
     let networkRequestManager: networkRequestManager
     let databaseManager: dbManager
 

@@ -9,7 +9,7 @@ import Foundation
 
 class searchViewModel {
 
-    let controller: searchViewController?
+    weak var controller: searchViewController?
     let networkRequestManager: networkRequestManager
     public var resultBreeds: Set<Breed> = []
 
