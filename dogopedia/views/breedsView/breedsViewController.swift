@@ -14,6 +14,7 @@ class breedsViewController: UIViewController {
     @IBOutlet weak var displaySelector: UISegmentedControl!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var navBarRightButton: UIBarButtonItem!
+    @IBOutlet weak var helperLabel: UILabel!
     
     var model: breedsViewModel?
     var isSorting = false
@@ -34,13 +35,16 @@ class breedsViewController: UIViewController {
 
         self.navBar.delegate = self
         self.setupNavbarItem()
+        self.helperLabel.isHidden = true
     }
 
     // MARK: Public functions
 
-    public func didLoadBreeds(wasSuccessful: Bool) {
+    public func didLoadBreeds(wasSuccessful: Bool, fromNetworkRequest: Bool) {
 
-        self.isRequesting = false
+        if fromNetworkRequest {
+            self.isRequesting = false
+        }
 
         if wasSuccessful {
             DispatchQueue.main.async {
@@ -80,6 +84,12 @@ class breedsViewController: UIViewController {
                 break
             }
         }
+    }
+
+    public func showHelperLabel() {
+
+        self.helperLabel.text = "To see breeds here you need to add them to your favorites when you're online"
+        self.helperLabel.isHidden = false
     }
 
     // MARK: Segmented Control

@@ -40,16 +40,16 @@ extension databaseBreed {
         return dbBreed
     }
 
-    func toBreed(_ dbBreed: databaseBreed) -> Breed {
+    func toBreed() -> Breed {
 
-        let group = dbBreed.group
-        let hasLoadedImageData = dbBreed.hasLoadedImageData
-        let id = dbBreed.id
-        let imageReference = dbBreed.imageReference
-        let imageData = dbBreed.imageData
-        let name = dbBreed.name
-        let origin = dbBreed.origin
-        let temperament = dbBreed.temperament
+        let group = self.group
+        let hasLoadedImageData = self.hasLoadedImageData
+        let id = self.id
+        let imageReference = self.imageReference
+        let imageData = self.imageData
+        let name = self.name
+        let origin = self.origin
+        let temperament = self.temperament
 
         return Breed(group: group, hasLoadedImageData: hasLoadedImageData, id: id, imageReference: imageReference, imageData: imageData, name: name, origin: origin, temperament: temperament)
     }

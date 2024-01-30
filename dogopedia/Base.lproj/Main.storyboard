@@ -251,6 +251,12 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmB-bl-Dhv">
+                                <rect key="frame" x="8" y="158" width="377" height="20.333333333333343"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dIf-yZ-8Ta"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -262,6 +268,8 @@
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="bottom" secondItem="vEk-J0-52W" secondAttribute="bottom" id="2er-y3-B2h"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="ARd-fo-Rpy" secondAttribute="trailing" constant="16" id="3dq-XA-5K7"/>
                             <constraint firstItem="vEk-J0-52W" firstAttribute="top" secondItem="ARd-fo-Rpy" secondAttribute="bottom" constant="16" id="7CD-Zb-NIm"/>
+                            <constraint firstItem="cmB-bl-Dhv" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="83F-ij-TKf"/>
+                            <constraint firstItem="cmB-bl-Dhv" firstAttribute="top" secondItem="ARd-fo-Rpy" secondAttribute="bottom" constant="16" id="HO1-kM-Yez"/>
                             <constraint firstItem="HTw-qf-chC" firstAttribute="top" secondItem="dIf-yZ-8Ta" secondAttribute="top" id="Kkt-LN-PLI"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" constant="16" id="MoB-gw-1oX"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="top" secondItem="HTw-qf-chC" secondAttribute="bottom" constant="8" id="Sx6-G8-DMd"/>
@@ -269,7 +277,9 @@
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="vEk-J0-52W" secondAttribute="trailing" id="bo7-7f-Zqy"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="oJI-Vc-C0a" secondAttribute="trailing" id="eCW-TF-VCL"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="HTw-qf-chC" secondAttribute="trailing" id="exn-gr-FpS"/>
+                            <constraint firstItem="dIf-yZ-8Ta" firstAttribute="trailing" secondItem="cmB-bl-Dhv" secondAttribute="trailing" constant="8" id="fCe-VX-AZI"/>
                             <constraint firstItem="oJI-Vc-C0a" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" id="hg2-us-2rC"/>
+                            <constraint firstItem="cmB-bl-Dhv" firstAttribute="leading" secondItem="dIf-yZ-8Ta" secondAttribute="leading" constant="8" id="iLR-bg-oQe"/>
                             <constraint firstItem="dIf-yZ-8Ta" firstAttribute="bottom" secondItem="oJI-Vc-C0a" secondAttribute="bottom" id="ivV-jC-auA"/>
                             <constraint firstItem="ARd-fo-Rpy" firstAttribute="centerX" secondItem="dIf-yZ-8Ta" secondAttribute="centerX" id="ye9-Pg-K8Q"/>
                         </constraints>
@@ -278,6 +288,7 @@
                     <connections>
                         <outlet property="collectionView" destination="vEk-J0-52W" id="HgS-IN-ItJ"/>
                         <outlet property="displaySelector" destination="ARd-fo-Rpy" id="PFp-7u-Dv1"/>
+                        <outlet property="helperLabel" destination="cmB-bl-Dhv" id="WdZ-Td-nr1"/>
                         <outlet property="navBar" destination="HTw-qf-chC" id="3Sm-7P-OBY"/>
                         <outlet property="navBarRightButton" destination="JpJ-we-0uM" id="U9k-2C-hFt"/>
                         <outlet property="tableView" destination="oJI-Vc-C0a" id="Ila-XF-Owu"/>
