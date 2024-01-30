@@ -12,82 +12,82 @@ import XCTest
 final class breedsViewModelTests: XCTestCase {
 
     var viewModel: breedsViewModel?
-    var requestMakerMock: mockRequestMaker?
+    var requestManagerMock: mockRequestManager?
 
     override func setUpWithError() throws {
 
         try super.setUpWithError()
 
-        self.requestMakerMock = mockRequestMaker()
+        self.requestManagerMock = mockRequestManager()
     }
 
     override func tearDownWithError() throws {
 
-        self.requestMakerMock = nil
+        self.requestManagerMock = nil
         self.viewModel = nil
     }
 
     func testModelRequestsPageZeroAtStart() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
 
         // Act
-        self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
+        self.viewModel = breedsViewModel(controller: nil, networkRequestManager: requestManagerMock)
 
         // Assert
-        XCTAssertEqual(requestMakerMock.requestedPage, 0)
+        XCTAssertEqual(requestManagerMock.requestedPage, 0)
     }
 
     func testModelDoesNotRequestImagesWhenBreedsArrayIsEmpty() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
 
         // Act
-        self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
+        self.viewModel = breedsViewModel(controller: nil, networkRequestManager: requestManagerMock)
 
         // Assert
-        XCTAssertFalse(requestMakerMock.didRequestImageInformation)
+        XCTAssertFalse(requestManagerMock.didRequestImageInformation)
     }
 
     func testModelRequestsImagesWhenBreedsArrayIsNotEmpty() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
         let testBreed = Breed(group: "TestGroup",
                               id: 0,
                               imageReference: "TestReference",
                               name: "TestBreed",
                               origin: "TestOrigin",
                               temperament: "TestTemper")
-        requestMakerMock.breedsToReturn = [testBreed]
+        requestManagerMock.breedsToReturn = [testBreed]
 
         // Act
-        self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
+        self.viewModel = breedsViewModel(controller: nil, networkRequestManager: requestManagerMock)
 
         // Assert
-        XCTAssertTrue(requestMakerMock.didRequestImageInformation)
+        XCTAssertTrue(requestManagerMock.didRequestImageInformation)
     }
 
     func testWhenScrollingDownTheNextPageIsRequested() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
         let testBreed = Breed(group: "TestGroup",
                                id: 0,
                                imageReference: "TestReference",
                                name: "TestBreed",
                                origin: "TestOrigin",
                                temperament: "TestTemper")
-        requestMakerMock.breedsToReturn = [testBreed]
+        requestManagerMock.breedsToReturn = [testBreed]
 
         // Act
-        self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
-        let firstPageRequested = requestMakerMock.requestedPage
+        self.viewModel = breedsViewModel(controller: nil, networkRequestManager: requestManagerMock)
+        let firstPageRequested = requestManagerMock.requestedPage
 
         self.viewModel?.didScrollToBottom()
-        let secondPageRequested = requestMakerMock.requestedPage
+        let secondPageRequested = requestManagerMock.requestedPage
 
         // Assert
         guard let firstPageRequested = firstPageRequested,
@@ -102,7 +102,7 @@ final class breedsViewModelTests: XCTestCase {
     func testViewModelDoesNotStoreDuplicatedBreeds() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
         let testBreed1 = Breed(group: "TestGroup",
                                id: 0,
                                imageReference: "TestReference",
@@ -117,10 +117,10 @@ final class breedsViewModelTests: XCTestCase {
                                origin: "TestOrigin",
                                temperament: "TestTemper")
 
-        requestMakerMock.breedsToReturn = [testBreed1, testBreed1, testBreed2, testBreed2]
+        requestManagerMock.breedsToReturn = [testBreed1, testBreed1, testBreed2, testBreed2]
 
         // Act
-        self.viewModel = breedsViewModel(controller: nil, networkRequester: requestMakerMock)
+        self.viewModel = breedsViewModel(controller: nil, networkRequestManager: requestManagerMock)
 
         // Assert
         XCTAssertEqual(viewModel?.breeds.count, 2)

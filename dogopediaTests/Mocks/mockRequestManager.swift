@@ -1,5 +1,5 @@
 //
-//  mockRequestMaker.swift
+//  mockRequestManager.swift
 //  dogopediaTests
 //
 //  Created by Matheus Queiroz on 29/01/2024.
@@ -9,7 +9,7 @@ import Foundation
 
 @testable import dogopedia
 
-class mockRequestMaker: networkRequester {
+class mockRequestManager: networkRequestManager {
 
     var requestedPage: Int?
     var requestedTerm: String?

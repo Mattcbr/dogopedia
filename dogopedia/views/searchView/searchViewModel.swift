@@ -10,19 +10,19 @@ import Foundation
 class searchViewModel {
 
     let controller: searchViewController?
-    let networkRequester: networkRequester
+    let networkRequestManager: networkRequestManager
     public var resultBreeds: Set<Breed> = []
 
     init(controller: searchViewController?,
-         networkRequester: networkRequester) {
+         networkRequestManager: networkRequestManager) {
 
         self.controller = controller
-        self.networkRequester = networkRequester
+        self.networkRequestManager = networkRequestManager
     }
 
     func performSearch(withTerm term: String, completion: @escaping(viewState) -> Void) {
 
-        networkRequester.requestBreeds(requestType: .searchBreeds(term)) { [weak self] result in
+        networkRequestManager.requestBreeds(requestType: .searchBreeds(term)) { [weak self] result in
             guard let self else { return }
 
             switch result {
@@ -38,7 +38,7 @@ class searchViewModel {
                 for index in 0..<breeds.count {
 
                     dispatchGroup.enter()
-                    networkRequester.requestImageInformation(referenceId: breeds[index].imageReference) { data in
+                    networkRequestManager.requestImageInformation(referenceId: breeds[index].imageReference) { data in
                         breeds[index].addImageData(data)
                         self.resultBreeds = Set(breeds.map{$0})
                         dispatchGroup.leave()

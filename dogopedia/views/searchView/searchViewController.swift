@@ -34,7 +34,7 @@ class searchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.model = searchViewModel(controller: self, networkRequester: RequestMaker())
+        self.model = searchViewModel(controller: self, networkRequestManager: RequestManager())
 
         self.state = .waiting
         self.tableView.delegate = self

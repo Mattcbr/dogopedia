@@ -10,7 +10,7 @@ import Foundation
 class breedsViewModel {
     
     let controller: breedsViewController?
-    let networkRequester: networkRequester
+    let networkRequestManager: networkRequestManager
     let databaseManager: dbManager
 
     var pageToRequest: Int = 0
@@ -20,19 +20,19 @@ class breedsViewModel {
     var gotBreedsFromNetwork = false
 
     init(controller: breedsViewController?,
-         networkRequester: networkRequester) {
+         networkRequestManager: networkRequestManager) {
 
         self.controller = controller
-        self.networkRequester = networkRequester
+        self.networkRequestManager = networkRequestManager
         self.databaseManager = dbManager.shared
 
         self.requestBreedsFromDatabase()
-        self.requestBreeds()
+        self.requestBreedsFromNetwork()
     }
 
     func didScrollToBottom() {
 
-        requestBreeds()
+        requestBreedsFromNetwork()
     }
 
     func requestBreedsFromDatabase() {
@@ -55,9 +55,9 @@ class breedsViewModel {
         }
     }
 
-    func requestBreeds() {
+    func requestBreedsFromNetwork() {
 
-        networkRequester.requestBreeds(requestType: .allBreeds(self.pageToRequest)) { [weak self] result in
+        networkRequestManager.requestBreeds(requestType: .allBreeds(self.pageToRequest)) { [weak self] result in
 
             guard let self else { return }
 
@@ -71,7 +71,7 @@ class breedsViewModel {
                     if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
                         self.breeds.append(resultBreeds[index])
 
-                        networkRequester.requestImageInformation(referenceId: resultBreeds[index].imageReference) {[weak self] data in
+                        networkRequestManager.requestImageInformation(referenceId: resultBreeds[index].imageReference) {[weak self] data in
 
                             guard let self else { return }
 

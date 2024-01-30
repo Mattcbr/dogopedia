@@ -12,26 +12,26 @@ import XCTest
 final class searchViewModelTest: XCTestCase {
 
     var viewModel: searchViewModel?
-    var requestMakerMock: mockRequestMaker?
+    var requestManagerMock: mockRequestManager?
 
     override func setUpWithError() throws {
 
         try super.setUpWithError()
 
-        self.requestMakerMock = mockRequestMaker()
+        self.requestManagerMock = mockRequestManager()
     }
 
     override func tearDownWithError() throws {
 
-        self.requestMakerMock = nil
+        self.requestManagerMock = nil
         self.viewModel = nil
     }
 
     func testWhenBreedsNotFoundSearchReturnsError() {
 
         // Arrange
-        guard let requestMakerMock else { return }
-        self.viewModel = searchViewModel(controller: nil, networkRequester: requestMakerMock)
+        guard let requestManagerMock else { return }
+        self.viewModel = searchViewModel(controller: nil, networkRequestManager: requestManagerMock)
         let expectation = XCTestExpectation(description: "Test search not found expectation")
         var state: viewState?
 
@@ -49,7 +49,7 @@ final class searchViewModelTest: XCTestCase {
     func testWhenBreedsFoundSearchReturnsSuccess() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
 
         let testBreed = Breed(group: "TestGroup", 
                               id: 0,
@@ -58,8 +58,8 @@ final class searchViewModelTest: XCTestCase {
                               origin: "TestOrigin",
                               temperament: "TestTemper")
 
-        requestMakerMock.breedsToReturn = [testBreed]
-        self.viewModel = searchViewModel(controller: nil, networkRequester: requestMakerMock)
+        requestManagerMock.breedsToReturn = [testBreed]
+        self.viewModel = searchViewModel(controller: nil, networkRequestManager: requestManagerMock)
         let expectation = XCTestExpectation(description: "Test search not found expectation")
         var state: viewState?
 
@@ -77,7 +77,7 @@ final class searchViewModelTest: XCTestCase {
     func testWhenBreedsFoundSearchRequestsImages() {
 
         // Arrange
-        guard let requestMakerMock else { return }
+        guard let requestManagerMock else { return }
 
         let testBreed = Breed(group: "TestGroup",
                               id: 0,
@@ -86,8 +86,8 @@ final class searchViewModelTest: XCTestCase {
                               origin: "TestOrigin",
                               temperament: "TestTemper")
 
-        requestMakerMock.breedsToReturn = [testBreed]
-        self.viewModel = searchViewModel(controller: nil, networkRequester: requestMakerMock)
+        requestManagerMock.breedsToReturn = [testBreed]
+        self.viewModel = searchViewModel(controller: nil, networkRequestManager: requestManagerMock)
         let expectation = XCTestExpectation(description: "Test search not found expectation")
 
         // Act
@@ -97,6 +97,6 @@ final class searchViewModelTest: XCTestCase {
 
         // Assert
         self.wait(for: [expectation], timeout: 3.0)
-        XCTAssertTrue(requestMakerMock.didRequestImageInformation)
+        XCTAssertTrue(requestManagerMock.didRequestImageInformation)
     }
 }

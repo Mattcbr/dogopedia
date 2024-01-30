@@ -1,5 +1,5 @@
 //
-//  RequestMaker.swift
+//  RequestManager.swift
 //  dogopedia
 //
 //  Created by Matheus Queiroz on 26/01/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol networkRequester {
+protocol networkRequestManager {
 
     func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
     func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void)
@@ -23,7 +23,7 @@ enum requestType {
     case searchBreeds(String)
 }
 
-class RequestMaker: networkRequester {
+class RequestManager: networkRequestManager {
 
     /**
      This function gets breeds from the API
@@ -112,7 +112,7 @@ class RequestMaker: networkRequester {
                 completion(.success(decodedResponse))
 
             } catch {
-                print("RequestMaker Error: \(error.localizedDescription)")
+                print("RequestManager Error: \(error.localizedDescription)")
                 completion(.failure(.unavailable))
             }
         }.resume()
