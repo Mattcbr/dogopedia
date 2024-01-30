@@ -6,23 +6,40 @@
 //
 
 import UIKit
-import AlamofireImage
 
 class breedsGridViewCell: UICollectionViewCell {
 
     @IBOutlet weak var breedImageView: UIImageView!
     @IBOutlet weak var breedNameLabel: UILabel!
     
-    func setupForBreed(_ breed: Breed) {
-        
-        if let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) {
-            breedImageView.af.setImage(withURL: url)
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    var breedId: Int?
 
+    func setupForBreed(_ breed: Breed) {
+
+        if breed.hasLoadedImageData {
+            if let imageData = breed.imageData {
+                breedImageView.image = UIImage(data: imageData)
+
+            } else {
+                breedImageView.image = UIImage(named: "notfound")
+            }
+
+            loadingIndicator.stopAnimating()
+
+            if self.breedImageView.alpha != 1 {
+                UIView.animate(withDuration: 0.5) {
+                    self.breedImageView.alpha = 1
+                }
+            }
         } else {
-            breedImageView.image = UIImage(named: "notfound")
+            loadingIndicator.startAnimating()
+            loadingIndicator.hidesWhenStopped = true
+            breedImageView.alpha = 0
         }
 
         breedImageView.contentMode = .scaleAspectFill
         breedNameLabel.text = breed.name
+        breedId = breed.id
     }
 }

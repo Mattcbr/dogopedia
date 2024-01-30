@@ -209,6 +209,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="msg-vb-ViJ">
+                                                    <rect key="frame" x="70" y="70" width="20" height="20"/>
+                                                </activityIndicatorView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tb3-05-2J6">
                                                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                                 </imageView>
@@ -225,10 +228,12 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="msg-vb-ViJ" firstAttribute="centerX" secondItem="x57-Br-BrQ" secondAttribute="centerX" id="5QT-gD-x9v"/>
                                             <constraint firstAttribute="bottom" secondItem="dfo-CB-Iz1" secondAttribute="bottom" id="ACI-zZ-Ej2"/>
                                             <constraint firstItem="Tb3-05-2J6" firstAttribute="leading" secondItem="x57-Br-BrQ" secondAttribute="leading" id="DCf-DX-c3R"/>
                                             <constraint firstItem="dfo-CB-Iz1" firstAttribute="centerX" secondItem="x57-Br-BrQ" secondAttribute="centerX" id="E6A-bU-b4Z"/>
                                             <constraint firstAttribute="bottom" secondItem="Tb3-05-2J6" secondAttribute="bottom" id="FKO-mZ-HH7"/>
+                                            <constraint firstItem="msg-vb-ViJ" firstAttribute="centerY" secondItem="x57-Br-BrQ" secondAttribute="centerY" id="JrX-wK-s5n"/>
                                             <constraint firstItem="Tb3-05-2J6" firstAttribute="top" secondItem="x57-Br-BrQ" secondAttribute="top" id="USS-ps-S4i"/>
                                             <constraint firstAttribute="trailing" secondItem="Tb3-05-2J6" secondAttribute="trailing" id="V88-hT-u9Z"/>
                                             <constraint firstAttribute="trailing" secondItem="dfo-CB-Iz1" secondAttribute="trailing" id="WWr-KM-Ar0"/>
@@ -240,6 +245,7 @@
                                         <connections>
                                             <outlet property="breedImageView" destination="Tb3-05-2J6" id="p6d-wy-UEp"/>
                                             <outlet property="breedNameLabel" destination="dfo-CB-Iz1" id="obj-1t-qNT"/>
+                                            <outlet property="loadingIndicator" destination="msg-vb-ViJ" id="e7O-X4-wiq"/>
                                             <segue destination="Shi-s1-J9Z" kind="show" id="7Sm-5d-PQz"/>
                                         </connections>
                                     </collectionViewCell>
@@ -355,7 +361,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Xz7-TY-E4l"/>
+        <segue reference="QUB-kz-giD"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="house.fill" catalog="system" width="128" height="104"/>

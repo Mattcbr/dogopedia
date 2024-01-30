@@ -9,15 +9,23 @@ import Foundation
 
 struct Breed: Codable, Hashable, Equatable {
 
+    let group: String?
+    var hasLoadedImageData: Bool = false
     let id: Int
+    let imageReference: String
+    var imageData: Data?
     let name: String
-    let reference_image_id: String
-    let breed_group: String?
-    let temperament: String?
     let origin: String?
-    var imageUrl: String?
+    let temperament: String?
 
-    mutating func addImageUrl(_ url: String?) {
-        self.imageUrl = url
+    enum CodingKeys: String, CodingKey {
+        case id, name, temperament, origin
+        case imageReference = "reference_image_id"
+        case group = "breed_group"
+    }
+
+    mutating func addImageData(_ data: Data?) {
+        self.imageData = data
+        self.hasLoadedImageData = true
     }
 }

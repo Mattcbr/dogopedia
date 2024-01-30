@@ -17,7 +17,7 @@ class searchViewCell: UITableViewCell {
     func setupForBreed(_ breed: Breed) {
 
         titleLabel.text = breed.name
-        groupLabel.text = "Group: \(breed.breed_group ?? "Unknown")"
+        groupLabel.text = "Group: \(breed.group ?? "Unknown")"
         originLabel.text = "Origin: \(breed.origin ?? "Unknown")"
     }
 }

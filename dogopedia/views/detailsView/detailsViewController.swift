@@ -27,16 +27,16 @@ class detailsViewController: UIViewController {
     func setupForBreed() {
         guard let breed = self.breed else { return }
 
-        if let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) {
+        if let imageData = breed.imageData {
+            headerImageView.image = UIImage(data: imageData)
 
-            self.headerImageView.af.setImage(withURL: url)
         } else {
             self.headerImageView.image = UIImage(named: "notfound")
         }
 
         self.headerImageView.contentMode = .scaleAspectFill
         self.titleLabel.text = breed.name
-        self.categoryLabel.text = "Category: \(breed.breed_group ?? "Unknown")"
+        self.categoryLabel.text = "Category: \(breed.group ?? "Unknown")"
         self.originLabel.text = "Origin: \(breed.origin ?? "Unknown")"
         self.temperamentLabel.text = "Temperament:\(breed.temperament ?? "Unknown")"
     }

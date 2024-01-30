@@ -38,8 +38,8 @@ class searchViewModel {
                 for index in 0..<breeds.count {
 
                     dispatchGroup.enter()
-                    networkRequester.requestImageInformation(referenceId: breeds[index].reference_image_id) { url in
-                        breeds[index].addImageUrl(url)
+                    networkRequester.requestImageInformation(referenceId: breeds[index].imageReference) { data in
+                        breeds[index].addImageData(data)
                         self.resultBreeds = Set(breeds.map{$0})
                         dispatchGroup.leave()
                     }

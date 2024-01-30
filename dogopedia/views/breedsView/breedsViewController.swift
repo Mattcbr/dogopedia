@@ -38,11 +38,47 @@ class breedsViewController: UIViewController {
 
     // MARK: Public functions
 
-    public func didLoadBreeds() {
+    public func didLoadBreeds(wasSuccessful: Bool) {
+
+        self.isRequesting = false
+
+        if wasSuccessful {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                self.tableView.reloadData()
+            }
+        }
+    }
+
+    /**
+     This should be called when the async request for the breed's image is finished
+
+     This function searches if the breed is being shown in any of the visible cells and refreshes the cell if needed
+
+     - Parameter breed: The breed for which the image was loaded
+     */
+    public func didLoadImageForBreed(_ breed: Breed) {
+
         DispatchQueue.main.async {
-            self.isRequesting = false
-            self.collectionView.reloadData()
-            self.tableView.reloadData()
+            switch self.displaySelector.selectedSegmentIndex {
+            case 0:
+
+                if let cells = self.collectionView.visibleCells as? [breedsGridViewCell],
+                   let cell = cells.first(where: {$0.breedId == breed.id}),
+                   let indexPath = self.collectionView.indexPath(for: cell){
+
+                    self.collectionView.reloadItems(at: [indexPath])
+                }
+            case 1:
+                if let cells = self.tableView.visibleCells as? [breedsListViewCell],
+                   let cell = cells.first(where: {$0.breedId == breed.id}),
+                   let indexPath = self.tableView.indexPath(for: cell){
+
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            default:
+                break
+            }
         }
     }
 
@@ -117,7 +153,7 @@ class breedsViewController: UIViewController {
 
         let diff = scrollContentSizeHeight - scrollOffset - scrollViewHeight
 
-        if (diff <= 300 && !isRequesting) {
+        if (diff <= 400 && !self.isRequesting) {
             self.isRequesting = true
             model?.didScrollToBottom()
         }
@@ -165,7 +201,7 @@ extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
         let breedsArray = getBreedsArray()
 
         cell.setupForBreed(breedsArray[indexPath.row])
-        //cell.selectionStyle = .none
+        cell.selectionStyle = .none
 
         return cell
     }

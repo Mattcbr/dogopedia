@@ -11,17 +11,21 @@ class breedsListViewCell: UITableViewCell {
 
     @IBOutlet weak var breedNameLabel: UILabel!
     @IBOutlet weak var breedImageView: UIImageView!
+    var breedId: Int?
 
     func setupForBreed(_ breed: Breed) {
 
-        if let imageUrl = breed.imageUrl, let url = URL(string: imageUrl) {
-            breedImageView.af.setImage(withURL: url)
+        if breed.hasLoadedImageData {
+            if let imageData = breed.imageData {
+                breedImageView.image = UIImage(data: imageData)
 
-        } else {
-            breedImageView.image = UIImage(named: "notfound")
+            } else {
+                breedImageView.image = UIImage(named: "notfound")
+            }
         }
 
         breedImageView.contentMode = .scaleAspectFill
         breedNameLabel.text = breed.name
+        breedId = breed.id
     }
 }

@@ -26,7 +26,6 @@ class breedsViewModel {
 
     func didScrollToBottom() {
 
-        self.pageToRequest += 1
         requestBreeds()
     }
 
@@ -37,32 +36,32 @@ class breedsViewModel {
             guard let self else { return }
 
             switch result {
-            case .success(var resultBreeds):
-
-                let dispatchGroup = DispatchGroup()
+            case .success(let resultBreeds):
 
                 for index in 0..<resultBreeds.count {
-                    dispatchGroup.enter()
 
-                    networkRequester.requestImageInformation(referenceId: resultBreeds[index].reference_image_id) {[weak self] url in
+                    if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
+                        self.breeds.append(resultBreeds[index])
+                    }
+
+                    if index == resultBreeds.count - 1 {
+                        self.controller?.didLoadBreeds(wasSuccessful: true)
+                        self.pageToRequest += 1
+                    }
+
+                    networkRequester.requestImageInformation(referenceId: resultBreeds[index].imageReference) {[weak self] data in
 
                         guard let self else { return }
 
-                        resultBreeds[index].addImageUrl(url)
-
-                        if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
-                            self.breeds.append(resultBreeds[index])
+                        if let breedIndex = self.breeds.firstIndex(of: resultBreeds[index]) {
+                            self.breeds[breedIndex].addImageData(data)
+                            self.controller?.didLoadImageForBreed(self.breeds[breedIndex])
                         }
-
-                        dispatchGroup.leave()
                     }
                 }
 
-                dispatchGroup.notify(queue: .main) { [weak self] in
-                    self?.controller?.didLoadBreeds()
-                }
-
             case .failure(let error):
+                self.controller?.didLoadBreeds(wasSuccessful: false)
                 print("Error requesting breeds: \(error.localizedDescription)")
             }
         }

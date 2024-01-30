@@ -6,13 +6,11 @@
 //
 
 import Foundation
-import Alamofire
-import AlamofireImage
 
 protocol networkRequester {
 
     func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
-    func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void)
+    func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void)
 }
 
 enum HttpRequestError: Error {
@@ -60,21 +58,33 @@ class RequestMaker: networkRequester {
      - Parameter referenceId: The reference that should be used to make a request
      - Parameter completion: the completionHandler to call when the work is done
      */
-    func requestImageInformation(referenceId: String, completion: @escaping (String?) -> Void) {
+    func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void) {
 
         guard let endpointForImages = UrlBuilder.buildImageUrl(referenceId: referenceId) else {
             completion(nil)
             return
         }
 
-        let task = URLSession.shared.dataTask(with: endpointForImages) { data, _, error in
+        URLSession.shared.dataTask(with: endpointForImages) { data, _, error in
 
             if let data = data {
 
                 do {
                     let dataAsDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-                    let url = dataAsDict?["url"] as? String
-                    completion(url)
+
+                    guard let urlString = dataAsDict?["url"] as? String,
+                          let url = URL(string: urlString) else {
+                        completion(nil)
+                        return
+                    }
+
+                    URLSession.shared.dataTask(with: url) { data, _, error in
+                        guard let data = data, error == nil else {
+                            completion(nil)
+                            return
+                        }
+                        completion(data)
+                    }.resume()
                 } catch {
                     print("Image Request Failed for :\(referenceId)")
                     completion(nil)
@@ -83,14 +93,12 @@ class RequestMaker: networkRequester {
                 print("Image Request Failed with error: \(error)")
                 completion(nil)
             }
-        }
-
-        task.resume()
+        }.resume()
     }
 
     private func getRequestForURL<T>(_ requestUrl: URL, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
 
-        let task = URLSession.shared.dataTask(with: requestUrl) { data, _, error in
+        URLSession.shared.dataTask(with: requestUrl) { data, _, error in
 
             guard let data,
                   error == nil else {
@@ -107,7 +115,6 @@ class RequestMaker: networkRequester {
                 print("RequestMaker Error: \(error.localizedDescription)")
                 completion(.failure(.unavailable))
             }
-        }
-        task.resume()
+        }.resume()
     }
 }
