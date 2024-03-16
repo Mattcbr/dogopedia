@@ -5,132 +5,156 @@
 //  Created by Matheus Queiroz on 26/01/2024.
 //
 
-import UIKit
+import SwiftUI
 
-class breedsViewController: UIViewController {
+struct breedsViewController: View {
 
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var displaySelector: UISegmentedControl!
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navBarRightButton: UIBarButtonItem!
-    @IBOutlet weak var helperLabel: UILabel!
-    
-    var model: breedsViewModel?
-    var isSorting = false
-    var isRequesting = false
-    let gridReuseId = "gridCell"
-    let listReuseId = "listCell"
+    @EnvironmentObject var viewModel: breedsViewModel
+    private var circle = Circle()
+    private var rectangle = Rectangle()
+    @State private var isSorting = false
+    @State private var layoutFormat: LayoutFormat = .grid
+    @State private var presentAlert = false
+    var gridItems: [GridItem] = [GridItem(.flexible()), GridItem(.flexible())]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.model = breedsViewModel(controller: self, networkRequestManager: RequestManager())
-
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-
-        self.navBar.delegate = self
-        self.setupNavbarItem()
-        self.helperLabel.isHidden = true
+    var body: some View {
+        NavigationView {
+            VStack(alignment: .leading, spacing: .zero) {
+                formatChooser()
+                    .padding()
+                updatedLayout(items: getBreedsArray())
+            }
+            .toolbar(content: {
+                ToolbarItem {
+                    sortButton
+                }
+            })
+            .navigationTitle("Dogopedia 🐶")
+        }
     }
 
-    // MARK: Public functions
-
-    public func didLoadBreeds(wasSuccessful: Bool, fromNetworkRequest: Bool) {
-
-        if fromNetworkRequest {
-            self.isRequesting = false
+    @ViewBuilder private func gridView(items: [Breed]) -> some View {
+        ScrollView {
+            LazyVGrid(columns: gridItems, spacing: 10) {
+                ForEach(items, id: \.id) { breed in
+                    NavigationLink {
+                        //DogsDetailsView(dog: item)
+                    } label: {
+                        VStack(spacing: 12) {
+                            if let URL = breed.imageURL {
+                                gridDogPicture(url: URL)
+                            }
+                            dogName(breed.name)
+                            Spacer()
+                        }
+                        .onAppear() {
+                            viewModel.requestMoreIfNeeded(breed: breed)
+                        }
+                    }
+                }
+            }
         }
+        .buttonStyle(.plain)
+    }
 
-        if wasSuccessful {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.tableView.reloadData()
+    @ViewBuilder private func listView(items: [Breed]) -> some View {
+        List {
+            ForEach(items, id: \.id) { breed in
+                NavigationLink {
+                    //DogsDetailsView(dog: item)
+                } label: {
+                    dogRow(dog: breed)
+                        .padding()
+                        .onAppear {
+                            viewModel.requestMoreIfNeeded(breed: breed)
+                        }
+                }
             }
         }
     }
 
-    /**
-     This should be called when the async request for the breed's image is finished
-
-     This function searches if the breed is being shown in any of the visible cells and refreshes the cell if needed
-
-     - Parameter breed: The breed for which the image was loaded
-     */
-    public func didLoadImageForBreed(_ breed: Breed) {
-
-        DispatchQueue.main.async {
-            switch self.displaySelector.selectedSegmentIndex {
-            case 0:
-
-                if let cells = self.collectionView.visibleCells as? [breedsGridViewCell],
-                   let cell = cells.first(where: {$0.breedId == breed.id}),
-                   let indexPath = self.collectionView.indexPath(for: cell){
-
-                    self.collectionView.reloadItems(at: [indexPath])
-                }
-            case 1:
-                if let cells = self.tableView.visibleCells as? [breedsListViewCell],
-                   let cell = cells.first(where: {$0.breedId == breed.id}),
-                   let indexPath = self.tableView.indexPath(for: cell){
-
-                    self.tableView.reloadRows(at: [indexPath], with: .none)
-                }
-            default:
-                break
+    @ViewBuilder private func dogRow(dog: Breed) -> some View {
+        HStack(spacing: 12) {
+            if let URL = dog.imageURL {
+                listdogPicture(url: URL)
             }
+            dogName(dog.name)
+            Spacer()
         }
     }
 
-    public func showHelperLabel() {
-
-        self.helperLabel.text = "To see breeds here you need to add them to your favorites when you're online"
-        self.helperLabel.isHidden = false
+    @ViewBuilder private func listdogPicture(url: URL) -> some View {
+        AsyncImage(
+            url: url,
+            content: { image in
+                image.resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .overlay(circle
+                        .stroke(.gray, lineWidth: 1)
+                    )
+            },
+            placeholder: {
+                Image(systemName: "photo")
+            }
+        )
     }
 
-    // MARK: Segmented Control
+    @ViewBuilder private func gridDogPicture(url: URL) -> some View {
 
-    @IBAction func indexChanged(_ sender: Any) {
+        AsyncImage(
+            url: url,
+            content: { image in
+                image.resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150, height: 150)
+                    .clipShape(Rectangle())
+                    .overlay(rectangle
+                        .stroke(.gray, lineWidth: 1)
+                    )
+                    .cornerRadius(8)
+            },
+            placeholder: {
+                Image(systemName: "photo")
+            }
+        )
+        .padding()
+    }
 
-        switch displaySelector.selectedSegmentIndex {
-        case 0:
-            tableView.isHidden = true
-            collectionView.isHidden = false
-            collectionView.reloadData()
-        case 1:
-            collectionView.isHidden = true
-            tableView.isHidden = false
-            tableView.reloadData()
-        default:
-            break
+    @ViewBuilder private func dogName(_ name: String) -> some View {
+        Text(name)
+            .font(.subheadline)
+            .padding(.horizontal, 8)
+    }
+
+    @ViewBuilder private func formatChooser() -> some View {
+        Picker("", selection: $layoutFormat) {
+            ForEach(LayoutFormat.allCases, id: \.self) { option in
+                Text(option.rawValue)
+            }
+        }.pickerStyle(.segmented)
+    }
+
+    @ViewBuilder private func updatedLayout(items: [Breed]) -> some View {
+        switch layoutFormat {
+        case .list:
+            listView(items: items)
+        case .grid:
+            gridView(items: items)
         }
     }
 
-    // MARK: Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        guard let destinationVC = segue.destination as? detailsViewController else { return }
-
-        var breed: Breed?
-        var selectedCellIndexPath: Int?
-
-        if let gridCell = sender as? breedsGridViewCell {
-            selectedCellIndexPath = self.collectionView.indexPath(for: gridCell)?.row
-
-        } else if let listCell = sender as? breedsListViewCell {
-            selectedCellIndexPath = self.tableView.indexPath(for: listCell)?.row
+    private var sortButton: some View {
+        let buttonTitle = self.isSorting ? "Unsort" : "Sort"
+        return Button(buttonTitle) {
+            isSorting.toggle()
         }
+    }
 
-        if let selectedCellIndexPath {
-            breed = getBreedsArray()[selectedCellIndexPath]
-
-            destinationVC.breed = breed
-        }
+    private enum LayoutFormat:  String, CaseIterable {
+        case grid = "Grid"
+        case list = "List"
     }
 
     // MARK: Helper functions
@@ -141,9 +165,8 @@ class breedsViewController: UIViewController {
      - Returns: An array of breeds
      */
     func getBreedsArray() -> [Breed] {
-        guard let model else { return [] }
-        
-        var breedsArray = model.breeds
+
+        var breedsArray = viewModel.breeds
 
         if self.isSorting {
             breedsArray.sort {
@@ -153,95 +176,12 @@ class breedsViewController: UIViewController {
 
         return breedsArray
     }
-
-    // MARK: Continuous Scroll
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollViewHeight = scrollView.frame.size.height
-        let scrollContentSizeHeight = scrollView.contentSize.height
-        let scrollOffset = scrollView.contentOffset.y
-
-        let diff = scrollContentSizeHeight - scrollOffset - scrollViewHeight
-
-        if (diff <= 400 && !self.isRequesting) {
-            self.isRequesting = true
-            model?.didScrollToBottom()
-        }
-    }
 }
 
-// MARK: Collection View
-
-extension breedsViewController: UICollectionViewDelegate & UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model?.breeds.count ?? 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let model,
-              model.breeds.count > indexPath.row,
-              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: gridReuseId, for: indexPath) as? breedsGridViewCell
-              else { return UICollectionViewCell() }
-
-        let breedsArray = getBreedsArray()
-
-        cell.setupForBreed(breedsArray[indexPath.row])
-
-        return cell
-    }
-}
-
-// MARK: Table View
-
-extension breedsViewController: UITableViewDelegate & UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model?.breeds.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let model,
-              model.breeds.count > indexPath.row,
-              let cell = tableView.dequeueReusableCell(withIdentifier: listReuseId, for: indexPath) as? breedsListViewCell
-             else { return UITableViewCell() }
-
-        let breedsArray = getBreedsArray()
-
-        cell.setupForBreed(breedsArray[indexPath.row])
-        cell.selectionStyle = .none
-
-        return cell
-    }
-}
-
-// MARK: Navigation Bar
-
-extension breedsViewController: UINavigationBarDelegate {
-
-    func setupNavbarItem() {
-
-        self.navBarRightButton.title = self.isSorting ? "Unsort" : "Sort"
-        self.navBarRightButton.action = #selector(didTapNavBarItem)
-    }
-
-    @objc
-    func didTapNavBarItem() {
-
-        self.isSorting.toggle()
-        self.setupNavbarItem()
-
-        if self.displaySelector.selectedSegmentIndex == 0 {
-            self.collectionView.reloadData()
-        } else {
-            self.tableView.reloadData()
-        }
-    }
-
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
-
-     return .topAttached
+struct breedsViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = breedsViewModel(controller: nil)
+        breedsViewController()
+            .environmentObject(viewModel)
     }
 }
