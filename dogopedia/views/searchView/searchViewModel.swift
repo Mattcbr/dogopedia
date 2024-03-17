@@ -22,8 +22,9 @@ class searchViewModel {
 
     func performSearch(withTerm term: String, completion: @escaping(viewState) -> Void) {
 
-        networkRequestManager.requestBreeds(requestType: .searchBreeds(term)) { [weak self] result in
-            guard let self else { return }
+        Task {
+
+            let result = await networkRequestManager.requestBreeds(requestType: .searchBreeds(term))
 
             switch result {
             case .success(var breeds):
@@ -38,11 +39,11 @@ class searchViewModel {
                 for index in 0..<breeds.count {
 
                     dispatchGroup.enter()
-                    networkRequestManager.requestImageInformation(referenceId: breeds[index].imageReference) { data in
-                        breeds[index].addImageData(data)
-                        self.resultBreeds = Set(breeds.map{$0})
-                        dispatchGroup.leave()
-                    }
+
+                    let breedImageURL = await networkRequestManager.requestImageInformation(referenceId: breeds[index].imageReference)
+                    breeds[index].addImageUrl(breedImageURL)
+                    self.resultBreeds = Set(breeds.map{$0})
+                    dispatchGroup.leave()
 
                     dispatchGroup.notify(queue: .main) {
                         completion(.successful)

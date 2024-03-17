@@ -14,10 +14,11 @@ class breedsViewModel {
     let databaseManager: dbManager
 
     var pageToRequest: Int = 0
-    public var breeds: [Breed] = []
+    @Published var breeds: [Breed] = []
 
     var gotBreedsFromDatabase = false
     var gotBreedsFromNetwork = false
+    var isRequestingBreeds = false
 
     init(controller: breedsViewController?,
          networkRequestManager: networkRequestManager) {
@@ -27,12 +28,20 @@ class breedsViewModel {
         self.databaseManager = dbManager.shared
 
         self.requestBreedsFromDatabase()
-        self.requestBreedsFromNetwork()
+        Task {
+            await self.requestBreedsFromNetwork()
+        }
     }
 
-    func didScrollToBottom() {
+    func requestMoreIfNeeded(breed: Breed) {
 
-        requestBreedsFromNetwork()
+        guard !isRequestingBreeds,
+              let breedIndex = breeds.firstIndex(of: breed),
+              breedIndex >= breeds.count - 5 else { return }
+
+        Task {
+            await requestBreedsFromNetwork()
+        }
     }
 
     func requestBreedsFromDatabase() {
@@ -55,48 +64,41 @@ class breedsViewModel {
         }
     }
 
-    func requestBreedsFromNetwork() {
+    @MainActor
+    private func requestBreedsFromNetwork() async {
 
-        networkRequestManager.requestBreeds(requestType: .allBreeds(self.pageToRequest)) { [weak self] result in
+        self.isRequestingBreeds = true
 
-            guard let self else { return }
+        let result = await networkRequestManager.requestBreeds(requestType: .allBreeds(self.pageToRequest))
 
-            self.gotBreedsFromNetwork = true
+        self.gotBreedsFromNetwork = true
 
-            switch result {
-            case .success(let resultBreeds):
+        switch result {
+        case .success(let resultBreeds):
 
-                for index in 0..<resultBreeds.count {
+            for index in 0..<resultBreeds.count {
 
-                    if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
-                        self.breeds.append(resultBreeds[index])
+                if !self.breeds.contains(where: { $0.id == resultBreeds[index].id } ) {
 
-                        networkRequestManager.requestImageInformation(referenceId: resultBreeds[index].imageReference) {[weak self] data in
+                    self.breeds.append(resultBreeds[index])
 
-                            guard let self else { return }
+                    let breedImageURL = await networkRequestManager.requestImageInformation(referenceId: resultBreeds[index].imageReference)
 
-                            if let breedIndex = self.breeds.firstIndex(of: resultBreeds[index]) {
-                                self.breeds[breedIndex].addImageData(data)
-                                self.controller?.didLoadImageForBreed(self.breeds[breedIndex])
-                            }
-                        }
-                    }
-
-                    if index == resultBreeds.count - 1 {
-                        self.controller?.didLoadBreeds(wasSuccessful: true,
-                                                       fromNetworkRequest: true)
-                        self.showHelperLabelIfNeeded()
-                        self.pageToRequest += 1
+                    if let breedIndex = self.breeds.firstIndex(of: resultBreeds[index]) {
+                        self.breeds[breedIndex].addImageUrl(breedImageURL)
                     }
                 }
 
-            case .failure(let error):
-                self.controller?.didLoadBreeds(wasSuccessful: false,
-                                               fromNetworkRequest: true)
-                self.showHelperLabelIfNeeded()
-                print("Error requesting breeds: \(error.localizedDescription)")
+                if index == resultBreeds.count - 1 {
+                    self.pageToRequest += 1
+                }
             }
+
+        case .failure(let error):
+            print("Error requesting breeds: \(error.localizedDescription)")
         }
+
+        self.isRequestingBreeds = false
     }
 
     private func showHelperLabelIfNeeded() {

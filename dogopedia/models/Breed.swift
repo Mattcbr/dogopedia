@@ -13,7 +13,7 @@ struct Breed: Codable, Hashable, Equatable {
     var hasLoadedImageData: Bool = false
     let id: Int
     let imageReference: String
-    var imageData: Data?
+    var imageURL: URL?
     let name: String
     let origin: String?
     let temperament: String?
@@ -24,8 +24,8 @@ struct Breed: Codable, Hashable, Equatable {
         case group = "breed_group"
     }
 
-    mutating func addImageData(_ data: Data?) {
-        self.imageData = data
+    mutating func addImageUrl(_ url: URL?) {
+        self.imageURL = url
         self.hasLoadedImageData = true
     }
 }

@@ -9,8 +9,8 @@ import Foundation
 
 protocol networkRequestManager {
 
-    func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void)
-    func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void)
+    func requestBreeds(requestType: requestType) async -> Swift.Result<[Breed], HttpRequestError>
+    func requestImageInformation(referenceId: String) async -> URL?
 }
 
 enum HttpRequestError: Error {
@@ -29,9 +29,9 @@ class RequestManager: networkRequestManager {
      This function gets breeds from the API
 
      - Parameter requestType: The type of request to be performed (All or search)
-     - Parameter completion: the completionHandler to call when the work is done
+     - Returns: A swift result where if successful it will contain an array of `Breed`, if failure contains an `HttpRequestError`
      */
-    func requestBreeds(requestType: requestType, completion: @escaping (Swift.Result<[Breed], HttpRequestError>) -> Void) {
+    func requestBreeds(requestType: requestType) async -> Swift.Result<[Breed], HttpRequestError> {
 
         var endpoint: URL?
 
@@ -43,11 +43,9 @@ class RequestManager: networkRequestManager {
             endpoint = UrlBuilder.buildSearchUrl(searchQuery: searchQuery)
         }
 
-        if let endpoint {
-            getRequestForURL(endpoint) { result in
-                completion(result)
-            }
-        }
+        guard let endpoint else { return .failure(.unavailable) }
+
+        return await getRequestForURL(endpoint)
     }
 
     /**
@@ -56,65 +54,38 @@ class RequestManager: networkRequestManager {
      Since it is necessary to perform a second request to get the breed image's URL, and most of the information that comes on this second request is not being used right now, this function makes the request and returns a string with only the URL for the breed's image.
 
      - Parameter referenceId: The reference that should be used to make a request
-     - Parameter completion: the completionHandler to call when the work is done
+     - Returns: An optional `URL` for the breed's image
      */
-    func requestImageInformation(referenceId: String, completion: @escaping (Data?) -> Void) {
+    func requestImageInformation(referenceId: String) async -> URL? {
 
-        guard let endpointForImages = UrlBuilder.buildImageUrl(referenceId: referenceId) else {
-            completion(nil)
-            return
-        }
+        guard let endpointForImages = UrlBuilder.buildImageUrl(referenceId: referenceId) else { return nil }
 
-        URLSession.shared.dataTask(with: endpointForImages) { data, _, error in
+        do {
 
-            if let data = data {
+            let (data, _) = try await URLSession.shared.data(from: endpointForImages)
+            let dataAsDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
 
-                do {
-                    let dataAsDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-
-                    guard let urlString = dataAsDict?["url"] as? String,
-                          let url = URL(string: urlString) else {
-                        completion(nil)
-                        return
-                    }
-
-                    URLSession.shared.dataTask(with: url) { data, _, error in
-                        guard let data = data, error == nil else {
-                            completion(nil)
-                            return
-                        }
-                        completion(data)
-                    }.resume()
-                } catch {
-                    print("Image Request Failed for :\(referenceId)")
-                    completion(nil)
-                }
-            } else if let error = error {
-                print("Image Request Failed with error: \(error)")
-                completion(nil)
+            guard let urlString = dataAsDict?["url"] as? String,
+                  let url = URL(string: urlString) else {
+                return nil
             }
-        }.resume()
+
+            return url
+        } catch {
+            print("Image Request Failed for :\(referenceId)")
+            return nil
+        }
     }
 
-    private func getRequestForURL<T>(_ requestUrl: URL, _ completion: @escaping (Swift.Result<T, HttpRequestError>) -> Void) where T : Codable {
+    private func getRequestForURL<T: Codable>(_ requestUrl: URL) async -> Result<T, HttpRequestError> {
 
-        URLSession.shared.dataTask(with: requestUrl) { data, _, error in
-
-            guard let data,
-                  error == nil else {
-
-                completion(.failure(.unavailable))
-                return
-            }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decodedResponse))
-
-            } catch {
-                print("RequestManager Error: \(error.localizedDescription)")
-                completion(.failure(.unavailable))
-            }
-        }.resume()
+        do {
+            let (data, _) = try await URLSession.shared.data(from: requestUrl)
+            let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            return .success(decodedResponse)
+        } catch {
+            print("RequestManager Error: \(error.localizedDescription)")
+            return .failure(.unavailable)
+        }
     }
 }

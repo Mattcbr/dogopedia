@@ -14,7 +14,7 @@ class databaseBreed: Object {
     @Persisted var hasLoadedImageData: Bool = false
     @Persisted(primaryKey: true) var id: Int
     @Persisted var imageReference: String
-    @Persisted var imageData: Data?
+    @Persisted var imageURL: String?
     @Persisted var name: String
     @Persisted var origin: String?
     @Persisted var temperament: String?
@@ -32,7 +32,7 @@ extension databaseBreed {
         dbBreed.hasLoadedImageData = breed.hasLoadedImageData
         dbBreed.id = breed.id
         dbBreed.imageReference = breed.imageReference
-        dbBreed.imageData = breed.imageData
+        dbBreed.imageURL = breed.imageURL?.absoluteString
         dbBreed.name = breed.name
         dbBreed.origin = breed.origin
         dbBreed.temperament = breed.temperament
@@ -46,11 +46,11 @@ extension databaseBreed {
         let hasLoadedImageData = self.hasLoadedImageData
         let id = self.id
         let imageReference = self.imageReference
-        let imageData = self.imageData
+        let imageURL = URL(string: self.imageURL ?? "")
         let name = self.name
         let origin = self.origin
         let temperament = self.temperament
 
-        return Breed(group: group, hasLoadedImageData: hasLoadedImageData, id: id, imageReference: imageReference, imageData: imageData, name: name, origin: origin, temperament: temperament)
+        return Breed(group: group, hasLoadedImageData: hasLoadedImageData, id: id, imageReference: imageReference, imageURL: imageURL, name: name, origin: origin, temperament: temperament)
     }
 }
