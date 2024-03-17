@@ -180,7 +180,8 @@ struct breedsViewController: View {
 
 struct breedsViewController_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = breedsViewModel(controller: nil)
+        let viewModel = breedsViewModel(requestManager: RequestManager.shared,
+                                        databaseManager: dbManager.shared)
         breedsViewController()
             .environmentObject(viewModel)
     }

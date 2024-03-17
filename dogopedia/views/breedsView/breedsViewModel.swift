@@ -7,9 +7,8 @@
 
 import Foundation
 
-class breedsViewModel {
-    
-    weak var controller: breedsViewController?
+class breedsViewModel: ObservableObject {
+
     let networkRequestManager: networkRequestManager
     let databaseManager: dbManager
 
@@ -20,12 +19,11 @@ class breedsViewModel {
     var gotBreedsFromNetwork = false
     var isRequestingBreeds = false
 
-    init(controller: breedsViewController?,
-         networkRequestManager: networkRequestManager) {
+    init(requestManager: networkRequestManager,
+         databaseManager: dbManager) {
 
-        self.controller = controller
-        self.networkRequestManager = networkRequestManager
-        self.databaseManager = dbManager.shared
+        self.networkRequestManager = requestManager
+        self.databaseManager = databaseManager
 
         self.requestBreedsFromDatabase()
         Task {
@@ -57,8 +55,6 @@ class breedsViewModel {
             }
 
             if index == myBreeds.count - 1 {
-                self.controller?.didLoadBreeds(wasSuccessful: true,
-                                               fromNetworkRequest: false)
                 self.showHelperLabelIfNeeded()
             }
         }

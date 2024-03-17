@@ -12,7 +12,9 @@ struct dogopediaApp: App {
     let viewController = breedsViewController()
     var body: some Scene {
         WindowGroup {
-            viewController.environmentObject(breedsViewModel(controller: viewController))
+            let networkManager = RequestManager.shared
+            let dbManager = dbManager.shared
+            viewController.environmentObject(breedsViewModel(requestManager: networkManager, databaseManager: dbManager))
         }
     }
 }

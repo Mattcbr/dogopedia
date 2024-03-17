@@ -25,6 +25,10 @@ enum requestType {
 
 class RequestManager: networkRequestManager {
 
+    static let shared = RequestManager()
+
+    private init() {  }
+
     /**
      This function gets breeds from the API
 
