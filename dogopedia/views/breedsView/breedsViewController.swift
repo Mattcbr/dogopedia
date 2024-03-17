@@ -18,19 +18,38 @@ struct breedsViewController: View {
     var gridItems: [GridItem] = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading, spacing: .zero) {
-                formatChooser()
-                    .padding()
-                updatedLayout(items: getBreedsArray())
-            }
-            .toolbar(content: {
-                ToolbarItem {
-                    sortButton
+        switch viewModel.state {
+
+        case .success, .loading:
+            NavigationView {
+                VStack(alignment: .leading, spacing: .zero) {
+                    formatChooser()
+                        .padding()
+                    updatedLayout(items: getBreedsArray())
                 }
-            })
-            .navigationTitle("Dogopedia 🐶")
+                .toolbar(content: {
+                    ToolbarItem {
+                        sortButton
+                    }
+                })
+                .navigationTitle("Dogopedia 🐶")
+            }
+
+        case .initialLoading:
+            VStack {
+                Spacer()
+                ProgressView()
+                Spacer()
+            }
+        case .error:
+            errorView
         }
+    }
+
+    private var errorView: some View {
+        Text("To see breeds here you need to add them to your favorites when you're online")
+            .multilineTextAlignment(.center)
+
     }
 
     @ViewBuilder private func gridView(items: [Breed]) -> some View {

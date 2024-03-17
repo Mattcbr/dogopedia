@@ -7,6 +7,14 @@
 
 import Foundation
 
+enum breedsViewState {
+
+    case loading
+    case success
+    case initialLoading
+    case error
+}
+
 class breedsViewModel: ObservableObject {
 
     let networkRequestManager: networkRequestManager
@@ -14,16 +22,17 @@ class breedsViewModel: ObservableObject {
 
     var pageToRequest: Int = 0
     @Published var breeds: [Breed] = []
+    @Published var state: breedsViewState
 
     var gotBreedsFromDatabase = false
     var gotBreedsFromNetwork = false
-    var isRequestingBreeds = false
 
     init(requestManager: networkRequestManager,
          databaseManager: dbManager) {
 
         self.networkRequestManager = requestManager
         self.databaseManager = databaseManager
+        self.state = .initialLoading
 
         self.requestBreedsFromDatabase()
         Task {
@@ -33,7 +42,8 @@ class breedsViewModel: ObservableObject {
 
     func requestMoreIfNeeded(breed: Breed) {
 
-        guard !isRequestingBreeds,
+        guard state != .loading,
+              state != .initialLoading,
               let breedIndex = breeds.firstIndex(of: breed),
               breedIndex >= breeds.count - 5 else { return }
 
@@ -42,7 +52,11 @@ class breedsViewModel: ObservableObject {
         }
     }
 
-    func requestBreedsFromDatabase() {
+    private func requestBreedsFromDatabase() {
+
+        if state != .initialLoading {
+            state = .loading
+        }
 
         let myBreeds = databaseManager.breeds.map({$0.toBreed()})
 
@@ -55,7 +69,7 @@ class breedsViewModel: ObservableObject {
             }
 
             if index == myBreeds.count - 1 {
-                self.showHelperLabelIfNeeded()
+                self.checkForErrorState()
             }
         }
     }
@@ -63,7 +77,9 @@ class breedsViewModel: ObservableObject {
     @MainActor
     private func requestBreedsFromNetwork() async {
 
-        self.isRequestingBreeds = true
+        if state != .initialLoading {
+            state = .loading
+        }
 
         let result = await networkRequestManager.requestBreeds(requestType: .allBreeds(self.pageToRequest))
 
@@ -86,21 +102,21 @@ class breedsViewModel: ObservableObject {
                 }
 
                 if index == resultBreeds.count - 1 {
+                    self.state = .success
                     self.pageToRequest += 1
                 }
             }
 
         case .failure(let error):
+            self.checkForErrorState()
             print("Error requesting breeds: \(error.localizedDescription)")
         }
-
-        self.isRequestingBreeds = false
     }
 
-    private func showHelperLabelIfNeeded() {
+    private func checkForErrorState() {
 
         if self.gotBreedsFromDatabase && self.gotBreedsFromNetwork && self.breeds.count == 0 {
-            self.controller?.showHelperLabel()
+            self.state = .error
         }
     }
 }
