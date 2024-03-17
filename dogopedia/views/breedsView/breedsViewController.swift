@@ -14,7 +14,6 @@ struct breedsViewController: View {
     private var rectangle = Rectangle()
     @State private var isSorting = false
     @State private var layoutFormat: LayoutFormat = .grid
-    @State private var presentAlert = false
     var gridItems: [GridItem] = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
@@ -41,6 +40,7 @@ struct breedsViewController: View {
                 ProgressView()
                 Spacer()
             }
+
         case .error:
             errorView
         }
@@ -115,7 +115,13 @@ struct breedsViewController: View {
                     )
             },
             placeholder: {
-                Image(systemName: "photo")
+                Image("notfound").resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .overlay(circle
+                        .stroke(.gray, lineWidth: 1)
+                    )
             }
         )
     }
@@ -135,7 +141,14 @@ struct breedsViewController: View {
                     .cornerRadius(8)
             },
             placeholder: {
-                Image(systemName: "photo")
+                Image("notfound").resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150, height: 150)
+                    .clipShape(Rectangle())
+                    .overlay(rectangle
+                        .stroke(.gray, lineWidth: 1)
+                    )
+                    .cornerRadius(8)
             }
         )
         .padding()
