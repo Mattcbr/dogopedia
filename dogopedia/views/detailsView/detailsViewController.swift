@@ -5,9 +5,41 @@
 //  Created by Matheus Queiroz on 27/01/2024.
 //
 
-import UIKit
+import SwiftUI
 
-class detailsViewController: UIViewController {
+struct detailsViewController: View {
+    let breed: Breed
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 8) {
+            breedImage()
+            Text(breed.name).font(.headline)
+            Text(breed.group ?? "Category not available")
+            Text(breed.origin ?? "Origin not available")
+            Text(breed.temperament ?? "Temperament not available")
+            Spacer()
+        }
+    }
+
+    @ViewBuilder private func breedImage() -> some View {
+        AsyncImage(
+            url: breed.imageURL,
+            content: { image in
+                image.resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 393, height: 198)
+            }, placeholder: {
+                Image("notfound").resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 393, height: 198)
+            }
+        )
+    }
+}
+
+
+
+/*class detailsViewController: UIViewController {
 
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet weak var detailsStackView: UIStackView!
@@ -30,12 +62,12 @@ class detailsViewController: UIViewController {
     func setupForBreed() {
         guard let breed = self.breed else { return }
 
-        if let imageData = breed.imageData {
+        /*if let imageData = breed.imageData {
             headerImageView.image = UIImage(data: imageData)
 
         } else {
             self.headerImageView.image = UIImage(named: "notfound")
-        }
+        }*/
 
         self.headerImageView.contentMode = .scaleAspectFill
         self.titleLabel.text = breed.name
@@ -65,4 +97,4 @@ class detailsViewController: UIViewController {
 
         self.viewModel?.didPressFavoriteButton(forBreed: breed)
     }
-}
+}*/

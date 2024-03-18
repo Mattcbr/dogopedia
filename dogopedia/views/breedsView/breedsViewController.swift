@@ -57,7 +57,7 @@ struct breedsViewController: View {
             LazyVGrid(columns: gridItems, spacing: 10) {
                 ForEach(items, id: \.id) { breed in
                     NavigationLink {
-                        //DogsDetailsView(dog: item)
+                        detailsViewController(breed: breed)
                     } label: {
                         VStack(spacing: 12) {
                             if let URL = breed.imageURL {

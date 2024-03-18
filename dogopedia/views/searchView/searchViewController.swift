@@ -70,7 +70,7 @@ class searchViewController: UIViewController {
 
     // MARK: Navigation
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let destinationVC = segue.destination as? detailsViewController,
               let model = self.model,
@@ -80,7 +80,7 @@ class searchViewController: UIViewController {
         let breed = Array(model.resultBreeds)[selectedCellIndexPath.row]
         self.tableView.deselectRow(at: selectedCellIndexPath, animated: false)
         destinationVC.breed = breed
-    }
+    }*/
 }
 
 // Mark: Table View

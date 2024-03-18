@@ -9,12 +9,12 @@ import Foundation
 
 class detailsViewModel {
 
-    weak var controller: detailsViewController?
+    //weak var controller: detailsViewController?
     let databaseManager: dbManager
 
     init(controller: detailsViewController) {
         
-        self.controller = controller
+        //self.controller = controller
         self.databaseManager = dbManager.shared
     }
 
@@ -33,6 +33,6 @@ class detailsViewModel {
             self.databaseManager.addBreed(breed: breed)
         }
 
-        self.controller?.setupFavButton()
+        //self.controller?.setupFavButton()
     }
 }
